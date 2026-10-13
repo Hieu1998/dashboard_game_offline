@@ -328,6 +328,111 @@
   }
 </style>
 
+<style>
+/* ================= Cờ Tỷ Phú ================= */
+:root { --tp-bg: #c3d8bf; --tp-cell: #eef4e9; --tp-line: #7c9380; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --tp-bg: #12201a; --tp-cell: #1c2d25; --tp-line: #44604f; }
+}
+:root[data-theme="dark"] { --tp-bg: #12201a; --tp-cell: #1c2d25; --tp-line: #44604f; }
+
+.pdot { width: 18px; height: 18px; border-radius: 50%; flex: none; background: var(--c); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; line-height: 1; animation: none; border: 0; box-shadow: none; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.tp-setup { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 16px; max-width: 560px; margin-inline: auto; box-shadow: 0 20px 36px -26px rgba(0, 0, 0, 0.5); }
+.tp-h { margin: 0; font-size: 20px; font-weight: 600; }
+.tp-seats { display: flex; flex-direction: column; gap: 10px; }
+.tp-seat { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.tp-seat .pdot { width: 24px; height: 24px; font-size: 13px; }
+.tp-name { flex: 1 1 140px; min-width: 0; font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; }
+.tp-name:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.tp-wrap { position: relative; width: 100%; max-width: 640px; margin-inline: auto; border-radius: 14px; box-shadow: 0 30px 44px -26px rgba(0, 0, 0, 0.6); }
+.tp-board { position: relative; width: 100%; aspect-ratio: 1; container-type: inline-size; background: var(--tp-bg); border: 2px solid var(--tp-line); border-radius: 14px; overflow: hidden; }
+.tp-grid { position: absolute; inset: 0; display: grid; grid-template-columns: 1.5fr repeat(9, 1fr) 1.5fr; grid-template-rows: 1.5fr repeat(9, 1fr) 1.5fr; }
+.sq { position: relative; display: flex; min-width: 0; min-height: 0; overflow: hidden; padding: 0; margin: 0; border: 0; appearance: none; font: inherit; color: var(--fg); background: var(--tp-cell); outline: 1px solid var(--tp-line); outline-offset: -1px; cursor: pointer; text-align: center; }
+.sq:hover { filter: brightness(1.06); }
+.sq:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; z-index: 2; }
+.sd-b, .sd-c { flex-direction: column; }
+.sd-t { flex-direction: column-reverse; }
+.sd-l { flex-direction: row-reverse; }
+.sd-r { flex-direction: row; }
+.bar { flex: 0 0 22%; display: flex; align-items: center; justify-content: center; gap: 0.25cqw; box-shadow: inset 0 0 0 0.1cqw rgba(0, 0, 0, 0.35); }
+.sd-l .bar, .sd-r .bar { flex: 0 0 24%; flex-direction: column; }
+.bar b { display: block; width: 1.15cqw; height: 1.15cqw; background: #1f9d4d; border: 0.1cqw solid #0b5a2a; }
+.bar b.H { width: 2.4cqw; height: 1.4cqw; background: #d32f2f; border-color: #7d1a1a; }
+.tx { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2cqw; padding: 0.3cqw; line-height: 1.1; font-size: clamp(6px, 1.35cqw, 13px); overflow: hidden; }
+.sd-c .tx { font-size: clamp(7px, 1.5cqw, 14px); }
+.nm { font-weight: 600; overflow-wrap: anywhere; }
+.pr { color: var(--muted); font-size: 0.92em; }
+.ic { font-size: 2.3cqw; line-height: 1; }
+.sd-c .ic { font-size: 3.6cqw; }
+.owned::after { content: ''; position: absolute; inset: 0; border: 0.4cqw solid var(--oc); pointer-events: none; }
+.mort .tx, .mort .bar { opacity: 0.4; }
+.mort::before { content: 'TC'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-18deg); font-weight: 700; font-size: clamp(7px, 1.6cqw, 14px); color: var(--danger); border: 0.2cqw solid var(--danger); padding: 0 0.4cqw; z-index: 1; }
+
+.tp-center { position: absolute; inset: 12.5%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2cqw; padding: 1.5cqw; text-align: center; background: color-mix(in srgb, var(--tp-cell) 40%, transparent); }
+.c-logo { font-size: clamp(14px, 4.2cqw, 30px); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+.c-dice { display: flex; gap: 1.6cqw; }
+.die { display: grid; grid-template: repeat(3, 1fr) / repeat(3, 1fr); width: clamp(30px, 7.5cqw, 52px); aspect-ratio: 1; background: #fbf7ec; border: 1px solid #bdb08c; border-radius: 22%; padding: 11%; box-shadow: 0 3px 0 #bdb08c, 0 8px 12px -6px rgba(0, 0, 0, 0.5); }
+.die i { border-radius: 50%; margin: 10%; }
+.die i.on { background: #1b1a17; }
+.die.roll { animation: dieShake 0.16s linear infinite; }
+@keyframes dieShake { 25% { transform: rotate(-14deg) translateY(-3px); } 75% { transform: rotate(14deg) translateY(2px); } }
+.c-event { font-size: clamp(11px, 2cqw, 15px); max-width: 94%; min-height: 2.4em; display: flex; flex-direction: column; gap: 2px; }
+.c-event div:last-child { font-weight: 600; }
+.c-event div:not(:last-child) { color: var(--muted); }
+.c-prompt { display: flex; flex-direction: column; align-items: center; gap: 1cqw; font-size: clamp(12px, 2.1cqw, 16px); width: 100%; }
+.c-turn { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.c-turn small, .pl small { font-weight: 500; color: var(--muted); }
+.c-note { color: var(--muted); max-width: 92%; }
+.c-buy { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 14px; border: 1px solid var(--tp-line); border-radius: 10px; background: var(--tp-cell); }
+.c-buy .c-bar { width: 100%; height: 8px; border-radius: 4px; }
+.c-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.c-btns .btn { font-size: clamp(12px, 2.1cqw, 15px); padding: 0.55em 1em; }
+
+.tp-tokens { position: absolute; inset: 0; pointer-events: none; }
+.tk { position: absolute; width: max(2.5cqw, 15px); aspect-ratio: 1; border-radius: 50%; background: var(--c); border: max(0.28cqw, 2px) solid #fff; box-shadow: 0 0.4cqw 0.8cqw rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: max(1.4cqw, 8px); line-height: 1; transform: translate(calc(-50% + var(--dx, 0cqw)), calc(-50% + var(--dy, 0cqw))); transition: left 0.15s linear, top 0.15s linear; z-index: 3; }
+.tk.cur { box-shadow: 0 0 0 max(0.3cqw, 2px) var(--fg), 0 0.4cqw 0.8cqw rgba(0, 0, 0, 0.5); z-index: 4; }
+.tk.jailed { border-style: dashed; }
+
+.pl-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pl { display: flex; flex-direction: column; gap: 2px; min-width: 0; text-align: left; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); cursor: pointer; transition: border-color 0.15s, transform 0.12s; }
+.pl:hover { border-color: var(--accent); }
+.pl:active { transform: scale(0.98); }
+.pl.cur { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.pl.out { opacity: 0.5; }
+.pl-n { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.pl-nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.pl-c { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.pl-s { font-size: 12.5px; color: var(--muted); }
+
+.tp-log { list-style: none; margin: 0; padding: 0; max-height: 240px; overflow-y: auto; border-top: 1px solid var(--line); }
+.tp-log li { display: flex; gap: 8px; align-items: baseline; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+.tp-log li i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.tp-rules summary { cursor: pointer; font-weight: 600; }
+.tp-rules ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
+
+.tp-modal { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; padding: 16px; animation: fadeIn 0.15s both; }
+.tp-mbox { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; width: 100%; max-width: 520px; max-height: min(86vh, 720px); overflow: auto; padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.7); }
+.pm-head { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+.pm-head h3 { margin: 0; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+.pm-sub { color: var(--muted); font-size: 14px; }
+.pm-row { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 4px 10px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.pm-chip { width: 12px; height: 28px; border-radius: 3px; }
+.pm-n { font-weight: 600; }
+.pm-s { color: var(--muted); font-size: 13px; font-weight: 400; margin-left: 6px; }
+.pm-b { grid-column: 2; display: flex; gap: 6px; flex-wrap: wrap; }
+.btn.sm { padding: 4px 10px; font-size: 13px; }
+.pm-tbl { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: 14px; }
+.pm-tbl span:nth-child(even) { font-variant-numeric: tabular-nums; text-align: right; }
+
+@media (prefers-reduced-motion: reduce) {
+  .die.roll, .tp-modal { animation: none !important; }
+  .tk { transition: none; }
+}
+</style>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <radialGradient id="xqDisc" cx="35%" cy="30%" r="80%">
@@ -434,7 +539,70 @@
       </div>
       <div class="foot"><span class="tag ok">Chơi được</span><span class="go" aria-hidden="true">Vào chơi →</span></div>
     </a>
+    <a class="card" style="--i:2" href="#ty-phu" data-open="ty-phu">
+      <svg class="logo" viewBox="0 0 96 96" aria-hidden="true">
+        <rect width="96" height="96" rx="16" fill="var(--tp-bg)"/>
+        <rect x="6" y="6" width="84" height="84" rx="10" fill="none" stroke="var(--tp-line)" stroke-width="2"/>
+        <rect x="22" y="22" width="52" height="52" fill="var(--tp-cell)" stroke="var(--tp-line)" stroke-width="2"/>
+        <rect x="24" y="8" width="16" height="12" fill="#d1372e"/><rect x="40" y="8" width="16" height="12" fill="#efd13a"/><rect x="56" y="8" width="16" height="12" fill="#2e9f5b"/>
+        <rect x="24" y="76" width="16" height="12" fill="#2b4fa8"/><rect x="40" y="76" width="16" height="12" fill="#ee8a2b"/><rect x="56" y="76" width="16" height="12" fill="#d86aa7"/>
+        <rect x="8" y="24" width="12" height="16" fill="#7fc8ea"/><rect x="8" y="40" width="12" height="16" fill="#8b5a3c"/><rect x="8" y="56" width="12" height="16" fill="#ee8a2b"/>
+        <rect x="76" y="24" width="12" height="16" fill="#2e9f5b"/><rect x="76" y="40" width="12" height="16" fill="#d1372e"/><rect x="76" y="56" width="12" height="16" fill="#2b4fa8"/>
+        <g class="lg-pawn">
+          <path d="M28 56L42 43L56 56Z" fill="#d32f2f"/>
+          <rect x="31" y="56" width="22" height="13" fill="#fbf7ec" stroke="#1b1a17" stroke-width="1.4"/>
+          <rect x="39" y="60" width="6" height="9" fill="#8b5a3c"/>
+        </g>
+        <g transform="translate(55 28)"><g class="lg-a">
+          <rect width="15" height="15" rx="3" fill="#fbf7ec" stroke="#1b1a17" stroke-width="1.2"/>
+          <circle cx="4" cy="4" r="1.5" fill="#1b1a17"/><circle cx="7.5" cy="7.5" r="1.5" fill="#1b1a17"/><circle cx="11" cy="11" r="1.5" fill="#1b1a17"/>
+        </g></g>
+      </svg>
+      <div>
+        <h2>Cờ Tỷ Phú</h2>
+        <p>Bốn người chơi: đấu với máy hoặc bốn người chung một máy. Mua đất, xây nhà, thu tiền thuê.</p>
+      </div>
+      <div class="foot"><span class="tag ok">Chơi được</span><span class="go" aria-hidden="true">Vào chơi →</span></div>
+    </a>
   </div>
+</div>
+
+<div id="view-tycoon" hidden>
+<div class="app">
+  <nav class="crumb"><button type="button" class="back" data-nav="home">← Tất cả game</button></nav>
+  <header class="top">
+    <h1>Cờ Tỷ Phú</h1>
+    <span class="alt">Tycoon</span>
+  </header>
+
+  <main class="board-wrap">
+    <div id="tpSetup" class="tp-setup"></div>
+    <div id="tpPlay" class="tp-wrap" hidden></div>
+  </main>
+
+  <section class="panel">
+    <div class="pl-list" id="tpPlayers" hidden></div>
+    <div class="actions" id="tpActions" hidden>
+      <button type="button" class="btn primary" data-tp="setup">Ván mới</button>
+    </div>
+    <div class="moves" id="tpLogBox" hidden>
+      <h2 class="label">Nhật ký</h2>
+      <ol class="tp-log" id="tpLog"></ol>
+    </div>
+    <details class="tp-rules">
+      <summary>Luật chơi</summary>
+      <ul>
+        <li>Mỗi người bắt đầu với 1.500tr, đi theo chiều kim đồng hồ và nhận 200tr mỗi lần qua Xuất phát.</li>
+        <li>Dừng ở ô chưa có chủ thì được mua; ô có chủ thì trả tiền thuê. Tung đôi được đi tiếp, đôi ba lần liên tiếp thì vào tù.</li>
+        <li>Giữ đủ một nhóm màu thì tiền thuê đất trống gấp đôi và được xây nhà (xây đều, tối đa 4 nhà rồi nâng lên khách sạn).</li>
+        <li>Thế chấp nhận lại một nửa giá; chuộc lại phải trả thêm 10%. Hết tiền và không còn gì để bán thì phá sản. Người cuối cùng còn lại thắng.</li>
+        <li>Ván quá dài (sau 40 vòng) thì qua Xuất phát không còn nhận lương mà phải nộp thuế tài sản tăng dần.</li>
+        <li>Bản này chưa có đấu giá và trao đổi tài sản.</li>
+      </ul>
+    </details>
+  </section>
+</div>
+<div id="tpModal" class="tp-modal" hidden></div>
 </div>
 
 <div id="view-xiangqi" hidden>
@@ -2395,11 +2563,910 @@ function ChessEngine() {
 
 </script>
 <script>
+function TPEngine() {
+  'use strict';
+  // Cờ Tỷ Phú: engine thuần (không đụng DOM). Trạng thái G là object thuần, tuần tự hóa được,
+  // mọi thay đổi đi qua act(G, action) và số ngẫu nhiên lấy từ G.seed => dùng lại được trên server khi làm online.
+  var COLORS = ['#8b5a3c', '#7fc8ea', '#d86aa7', '#ee8a2b', '#d1372e', '#efd13a', '#2e9f5b', '#2b4fa8'];
+  function prop(n, g, p, h, r) { return { t: 'prop', n: n, g: g, p: p, h: h, r: r }; }
+  var SQ = [
+    { t: 'go', n: 'Xuất phát' },
+    prop('Cà Mau', 0, 60, 50, [2, 10, 30, 90, 160, 250]),
+    { t: 'comm', n: 'Khí vận' },
+    prop('Bạc Liêu', 0, 60, 50, [4, 20, 60, 180, 320, 450]),
+    { t: 'tax', n: 'Thuế thu nhập', p: 200 },
+    { t: 'st', n: 'Ga Sài Gòn', p: 200 },
+    prop('Quy Nhơn', 1, 100, 50, [6, 30, 90, 270, 400, 550]),
+    { t: 'chance', n: 'Cơ hội' },
+    prop('Nha Trang', 1, 100, 50, [6, 30, 90, 270, 400, 550]),
+    prop('Phan Thiết', 1, 120, 50, [8, 40, 100, 300, 450, 600]),
+    { t: 'jail', n: 'Nhà tù' },
+    prop('Cần Thơ', 2, 140, 100, [10, 50, 150, 450, 625, 750]),
+    { t: 'ut', n: 'Công ty Điện', p: 150 },
+    prop('Vũng Tàu', 2, 140, 100, [10, 50, 150, 450, 625, 750]),
+    prop('Biên Hòa', 2, 160, 100, [12, 60, 180, 500, 700, 900]),
+    { t: 'st', n: 'Ga Đà Nẵng', p: 200 },
+    prop('Buôn Ma Thuột', 3, 180, 100, [14, 70, 200, 550, 750, 950]),
+    { t: 'comm', n: 'Khí vận' },
+    prop('Đà Lạt', 3, 180, 100, [14, 70, 200, 550, 750, 950]),
+    prop('Pleiku', 3, 200, 100, [16, 80, 220, 600, 800, 1000]),
+    { t: 'park', n: 'Bãi đỗ xe' },
+    prop('Huế', 4, 220, 150, [18, 90, 250, 700, 875, 1050]),
+    { t: 'chance', n: 'Cơ hội' },
+    prop('Hội An', 4, 220, 150, [18, 90, 250, 700, 875, 1050]),
+    prop('Đà Nẵng', 4, 240, 150, [20, 100, 300, 750, 925, 1100]),
+    { t: 'st', n: 'Ga Huế', p: 200 },
+    prop('Vinh', 5, 260, 150, [22, 110, 330, 800, 975, 1150]),
+    prop('Thanh Hóa', 5, 260, 150, [22, 110, 330, 800, 975, 1150]),
+    { t: 'ut', n: 'Công ty Nước', p: 150 },
+    prop('Hải Phòng', 5, 280, 150, [24, 120, 360, 850, 1025, 1200]),
+    { t: 'gojail', n: 'Vào tù' },
+    prop('Hạ Long', 6, 300, 200, [26, 130, 390, 900, 1100, 1275]),
+    prop('Sa Pa', 6, 300, 200, [26, 130, 390, 900, 1100, 1275]),
+    { t: 'comm', n: 'Khí vận' },
+    prop('Ninh Bình', 6, 320, 200, [28, 150, 450, 1000, 1200, 1400]),
+    { t: 'st', n: 'Ga Hà Nội', p: 200 },
+    { t: 'chance', n: 'Cơ hội' },
+    prop('TP. Hồ Chí Minh', 7, 350, 200, [35, 175, 500, 1100, 1300, 1500]),
+    { t: 'tax', n: 'Thuế xa xỉ', p: 100 },
+    prop('Hà Nội', 7, 400, 200, [50, 200, 600, 1400, 1700, 2000])
+  ];
+  var GROUPS = COLORS.map(function () { return []; });
+  SQ.forEach(function (s, i) { if (s.t === 'prop') GROUPS[s.g].push(i); });
+  var STN = [5, 15, 25, 35];
+
+  var CHANCE = [
+    { x: 'Tiến thẳng tới Xuất phát và nhận 200tr.', a: 'to', v: 0 },
+    { x: 'Đi tới Hà Nội. Nếu đi qua Xuất phát, nhận 200tr.', a: 'to', v: 39 },
+    { x: 'Đi tới Huế. Nếu đi qua Xuất phát, nhận 200tr.', a: 'to', v: 21 },
+    { x: 'Đi tới Ga Sài Gòn. Nếu đi qua Xuất phát, nhận 200tr.', a: 'to', v: 5 },
+    { x: 'Đi tới ga gần nhất. Nếu đã có chủ, trả gấp đôi tiền thuê.', a: 'station' },
+    { x: 'Ngân hàng trả cổ tức, nhận 50tr.', a: 'cash', v: 50 },
+    { x: 'Khoản vay xây dựng đáo hạn, nhận 150tr.', a: 'cash', v: 150 },
+    { x: 'Lùi lại 3 ô.', a: 'back', v: 3 },
+    { x: 'Vào thẳng nhà tù, không qua Xuất phát.', a: 'jail' },
+    { x: 'Thẻ ra tù miễn phí. Giữ lại để dùng khi cần.', a: 'card' },
+    { x: 'Sửa chữa nhà cửa: 25tr mỗi nhà, 100tr mỗi khách sạn.', a: 'repair', v: [25, 100] },
+    { x: 'Phạt vượt đèn đỏ, nộp 15tr.', a: 'cash', v: -15 },
+    { x: 'Bạn được bầu làm trưởng khu phố: trả mỗi người chơi khác 50tr.', a: 'each', v: -50 }
+  ];
+  var COMM = [
+    { x: 'Ngân hàng nhầm có lợi cho bạn, nhận 200tr.', a: 'cash', v: 200 },
+    { x: 'Trả phí bác sĩ 50tr.', a: 'cash', v: -50 },
+    { x: 'Bán cổ phiếu được 50tr.', a: 'cash', v: 50 },
+    { x: 'Thẻ ra tù miễn phí. Giữ lại để dùng khi cần.', a: 'card' },
+    { x: 'Vào thẳng nhà tù, không qua Xuất phát.', a: 'jail' },
+    { x: 'Hoàn thuế thu nhập, nhận 20tr.', a: 'cash', v: 20 },
+    { x: 'Sinh nhật bạn: mỗi người chơi khác tặng 10tr.', a: 'each', v: 10 },
+    { x: 'Bảo hiểm đáo hạn, nhận 100tr.', a: 'cash', v: 100 },
+    { x: 'Nộp viện phí 100tr.', a: 'cash', v: -100 },
+    { x: 'Đóng học phí 50tr.', a: 'cash', v: -50 },
+    { x: 'Nhận phí tư vấn 25tr.', a: 'cash', v: 25 },
+    { x: 'Sửa đường: 40tr mỗi nhà, 115tr mỗi khách sạn.', a: 'repair', v: [40, 115] },
+    { x: 'Nhận thừa kế 100tr.', a: 'cash', v: 100 }
+  ];
+
+  function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function rnd(G) {
+    G.seed = (G.seed + 0x6D2B79F5) | 0;
+    var t = Math.imul(G.seed ^ (G.seed >>> 15), 1 | G.seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+  function rint(G, n) { return (rnd(G) * n) | 0; }
+  function shuffle(G, n) {
+    var a = [], i;
+    for (i = 0; i < n; i++) a.push(i);
+    for (i = n - 1; i > 0; i--) { var j = rint(G, i + 1), t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function say(G, p, t) { G.log.push({ p: p, t: t }); if (G.log.length > 120) G.log.shift(); }
+  function cur(G) { return G.players[G.turn]; }
+  function alive(G) { return G.players.filter(function (p) { return !p.bankrupt; }); }
+  function others(G, pid) { return G.players.filter(function (p) { return !p.bankrupt && p.id !== pid; }); }
+
+  function create(cfg) {
+    var G = {
+      players: [], owner: [], houses: [], mort: [], turn: 0, phase: 'roll', dice: [1, 1], doubles: 0, extra: false,
+      buy: -1, debt: null, afterDebt: 0, rentMult: 1, round: 1, chance: [], comm: [], ci: 0, mi: 0, log: [], winner: -1,
+      seed: cfg.seed | 0, level: cfg.level || 'mid'
+    };
+    for (var i = 0; i < cfg.players.length; i++) {
+      G.players.push({ id: i, name: cfg.players[i].name, ai: !!cfg.players[i].ai, cash: 1500, pos: 0, jail: 0, cards: 0, bankrupt: false });
+    }
+    for (var s = 0; s < 40; s++) { G.owner.push(-1); G.houses.push(0); G.mort.push(false); }
+    G.chance = shuffle(G, CHANCE.length);
+    G.comm = shuffle(G, COMM.length);
+    say(G, -1, 'Ván mới bắt đầu. Mỗi người có 1.500tr.');
+    say(G, 0, G.players[0].name + ' đi trước.');
+    return G;
+  }
+
+  function ownsGroup(G, pid, g) { return GROUPS[g].every(function (s) { return G.owner[s] === pid; }); }
+  function countOwned(G, pid, t) {
+    var n = 0;
+    for (var s = 0; s < 40; s++) if (SQ[s].t === t && G.owner[s] === pid) n++;
+    return n;
+  }
+  function rentOf(G, sq) {
+    var s = SQ[sq], o = G.owner[sq];
+    if (o < 0 || G.mort[sq]) return 0;
+    if (s.t === 'prop') {
+      var h = G.houses[sq];
+      if (h > 0) return s.r[h];
+      return ownsGroup(G, o, s.g) ? s.r[0] * 2 : s.r[0];
+    }
+    if (s.t === 'st') return 25 * Math.pow(2, countOwned(G, o, 'st') - 1) * G.rentMult;
+    if (s.t === 'ut') return (countOwned(G, o, 'ut') >= 2 ? 10 : 4) * (G.dice[0] + G.dice[1]);
+    return 0;
+  }
+  function mortCost(sq) { return Math.ceil(SQ[sq].p * 0.55); }
+  function netWorth(G, pid) {
+    var w = G.players[pid].cash;
+    for (var s = 0; s < 40; s++) {
+      if (G.owner[s] !== pid) continue;
+      w += G.mort[s] ? SQ[s].p / 2 : SQ[s].p;
+      if (SQ[s].t === 'prop') w += G.houses[s] * SQ[s].h;
+    }
+    return w;
+  }
+
+  // ---------- quyền thao tác tài sản ----------
+  function manageOK(G, pid) {
+    return G.phase !== 'over' && pid === G.turn && (G.phase === 'roll' || G.phase === 'action' || G.phase === 'debt' || G.phase === 'buy');
+  }
+  function canBuild(G, pid, sq) {
+    var s = SQ[sq];
+    if (s.t !== 'prop' || G.owner[sq] !== pid || !manageOK(G, pid)) return false;
+    var g = GROUPS[s.g];
+    if (!g.every(function (x) { return G.owner[x] === pid && !G.mort[x]; })) return false;
+    if (G.houses[sq] >= 5) return false;
+    var min = 9;
+    g.forEach(function (x) { if (G.houses[x] < min) min = G.houses[x]; });
+    if (G.houses[sq] > min) return false;
+    return G.players[pid].cash >= s.h;
+  }
+  function canSell(G, pid, sq) {
+    var s = SQ[sq];
+    if (s.t !== 'prop' || G.owner[sq] !== pid || !manageOK(G, pid) || G.houses[sq] <= 0) return false;
+    var max = 0;
+    GROUPS[s.g].forEach(function (x) { if (G.houses[x] > max) max = G.houses[x]; });
+    return G.houses[sq] === max;
+  }
+  function canMort(G, pid, sq) {
+    var s = SQ[sq];
+    if (G.owner[sq] !== pid || G.mort[sq] || !manageOK(G, pid)) return false;
+    if (s.t === 'prop') return GROUPS[s.g].every(function (x) { return G.houses[x] === 0; });
+    return s.t === 'st' || s.t === 'ut';
+  }
+  function canUnmort(G, pid, sq) {
+    return G.owner[sq] === pid && G.mort[sq] && manageOK(G, pid) && G.players[pid].cash >= mortCost(sq);
+  }
+
+  // ---------- dòng chảy lượt ----------
+  function settle(G) {
+    var p = cur(G);
+    G.phase = (G.extra && p.jail === 0 && !p.bankrupt) ? 'roll' : 'action';
+  }
+  function nextTurn(G) {
+    var n = G.turn;
+    var old = n;
+    do { n = (n + 1) % G.players.length; } while (G.players[n].bankrupt);
+    if (n <= old) G.round++;
+    G.turn = n; G.doubles = 0; G.extra = false; G.phase = 'roll';
+  }
+  function credit(G, to, amt) {
+    if (to >= 0) G.players[to].cash += amt;
+    else if (to === -2) {
+      var o = others(G, G.turn), each = o.length ? amt / o.length : 0;
+      o.forEach(function (x) { x.cash += each; });
+    }
+  }
+  function charge(G, pid, amt, to) {
+    var p = G.players[pid];
+    if (amt <= 0) return true;
+    if (p.cash >= amt) { p.cash -= amt; credit(G, to, amt); return true; }
+    G.debt = { pid: pid, amt: amt, to: to };
+    G.phase = 'debt';
+    say(G, pid, p.name + ' thiếu tiền: cần trả ' + fmt(amt) + 'tr, đang có ' + fmt(p.cash) + 'tr.');
+    return false;
+  }
+  function passGo(G, p) {
+    if (G.round > 40) {
+      var tax = Math.min(p.cash, (G.round - 40) * 25);
+      p.cash -= tax;
+      say(G, p.id, p.name + ' qua Xuất phát nhưng ván đã kéo dài: nộp thuế tài sản ' + fmt(tax) + 'tr thay vì nhận lương.');
+    } else { p.cash += 200; say(G, p.id, p.name + ' qua Xuất phát, nhận 200tr.'); }
+  }
+  function sendJail(G, p) {
+    p.pos = 10; p.jail = 1; G.extra = false;
+    say(G, p.id, p.name + ' vào tù.');
+  }
+  function goTo(G, p, to) {
+    if (to < p.pos) passGo(G, p);
+    p.pos = to;
+    land(G);
+  }
+  function doMove(G, steps) {
+    var p = cur(G), np = (p.pos + steps) % 40;
+    if (np < p.pos) passGo(G, p);
+    p.pos = np;
+    land(G);
+  }
+
+  function drawCard(G, kind) {
+    var p = cur(G), deck = kind === 'chance' ? CHANCE : COMM, order = kind === 'chance' ? G.chance : G.comm, ptr = kind === 'chance' ? 'ci' : 'mi';
+    var c = deck[order[G[ptr] % order.length]];
+    G[ptr]++;
+    say(G, G.turn, (kind === 'chance' ? 'Cơ hội: ' : 'Khí vận: ') + c.x);
+    var k, tgt, tot, n;
+    switch (c.a) {
+      case 'cash':
+        if (c.v >= 0) p.cash += c.v; else charge(G, G.turn, -c.v, -1);
+        break;
+      case 'to': goTo(G, p, c.v); break;
+      case 'station':
+        tgt = -1;
+        for (k = 0; k < STN.length; k++) if (STN[k] > p.pos) { tgt = STN[k]; break; }
+        if (tgt < 0) tgt = STN[0];
+        G.rentMult = 2; goTo(G, p, tgt); G.rentMult = 1;
+        break;
+      case 'back': p.pos = (p.pos + 40 - c.v) % 40; land(G); break;
+      case 'jail': sendJail(G, p); break;
+      case 'card': p.cards++; break;
+      case 'repair':
+        tot = 0;
+        for (k = 0; k < 40; k++) {
+          if (G.owner[k] !== G.turn || SQ[k].t !== 'prop') continue;
+          tot += G.houses[k] === 5 ? c.v[1] : G.houses[k] * c.v[0];
+        }
+        if (tot > 0) charge(G, G.turn, tot, -1); else say(G, G.turn, p.name + ' không có nhà nào nên không phải trả.');
+        break;
+      case 'each':
+        n = others(G, G.turn).length;
+        if (c.v < 0) charge(G, G.turn, -c.v * n, -2);
+        else {
+          others(G, G.turn).forEach(function (o) { var t = Math.min(o.cash, c.v); o.cash -= t; p.cash += t; });
+        }
+        break;
+    }
+  }
+
+  function land(G) {
+    var p = cur(G), s = SQ[p.pos], o, r;
+    switch (s.t) {
+      case 'prop': case 'st': case 'ut':
+        o = G.owner[p.pos];
+        if (o < 0) { G.phase = 'buy'; G.buy = p.pos; say(G, G.turn, p.name + ' dừng ở ' + s.n + ' (chưa có chủ, giá ' + fmt(s.p) + 'tr).'); }
+        else if (o !== G.turn && !G.mort[p.pos]) {
+          r = rentOf(G, p.pos);
+          say(G, G.turn, p.name + ' dừng ở ' + s.n + ' của ' + G.players[o].name + ', trả thuê ' + fmt(r) + 'tr.');
+          charge(G, G.turn, r, o);
+        } else if (o === G.turn) say(G, G.turn, p.name + ' dừng ở ' + s.n + ' của chính mình.');
+        else say(G, G.turn, p.name + ' dừng ở ' + s.n + ' (đang thế chấp, không thu thuê).');
+        break;
+      case 'tax':
+        say(G, G.turn, p.name + ' nộp ' + s.n + ' ' + fmt(s.p) + 'tr.');
+        charge(G, G.turn, s.p, -1);
+        break;
+      case 'gojail': sendJail(G, p); break;
+      case 'chance': drawCard(G, 'chance'); break;
+      case 'comm': drawCard(G, 'comm'); break;
+      default: break;
+    }
+    if (G.phase === 'moving') settle(G);
+  }
+
+  function roll(G) {
+    var p = cur(G);
+    G.dice = [1 + rint(G, 6), 1 + rint(G, 6)];
+    var d = G.dice, sum = d[0] + d[1], dbl = d[0] === d[1];
+    say(G, G.turn, p.name + ' tung ' + d[0] + ' và ' + d[1] + (dbl ? ' (đôi)' : '') + '.');
+    G.extra = false; G.phase = 'moving';
+    if (p.jail > 0) {
+      if (dbl) { p.jail = 0; say(G, G.turn, p.name + ' tung được đôi nên ra tù.'); doMove(G, sum); return; }
+      if (p.jail >= 3) {
+        p.jail = 0;
+        say(G, G.turn, p.name + ' hết 3 lượt, nộp 50tr để ra tù.');
+        G.afterDebt = sum;
+        if (!charge(G, G.turn, 50, -1)) return;
+        G.afterDebt = 0;
+        doMove(G, sum);
+        return;
+      }
+      p.jail++;
+      say(G, G.turn, p.name + ' không ra được tù.');
+      settle(G);
+      return;
+    }
+    if (dbl) {
+      G.doubles++;
+      if (G.doubles >= 3) {
+        say(G, G.turn, p.name + ' tung đôi ba lần liên tiếp.');
+        sendJail(G, p); G.doubles = 0; settle(G);
+        return;
+      }
+      G.extra = true;
+    } else G.doubles = 0;
+    doMove(G, sum);
+  }
+
+  function goBankrupt(G) {
+    var d = G.debt, p = G.players[d.pid], cr = d.to >= 0 ? G.players[d.to] : null;
+    say(G, d.pid, p.name + ' phá sản' + (cr ? '; tài sản chuyển cho ' + cr.name + '.' : '; tài sản trả về ngân hàng.'));
+    for (var s = 0; s < 40; s++) {
+      if (G.owner[s] !== d.pid) continue;
+      G.houses[s] = 0;
+      if (cr) G.owner[s] = cr.id; else { G.owner[s] = -1; G.mort[s] = false; }
+    }
+    if (cr) { cr.cash += p.cash; cr.cards += p.cards; }
+    p.cash = 0; p.cards = 0; p.bankrupt = true; p.jail = 0;
+    G.debt = null; G.afterDebt = 0; G.buy = -1;
+    var al = alive(G);
+    if (al.length <= 1) {
+      G.phase = 'over'; G.winner = al[0].id;
+      say(G, G.winner, al[0].name + ' là người cuối cùng còn lại và chiến thắng!');
+      return;
+    }
+    nextTurn(G);
+  }
+
+  function act(G, a) {
+    if (G.phase === 'over') return false;
+    var p = cur(G), sq = a.sq, s;
+    switch (a.a) {
+      case 'roll':
+        if (G.phase !== 'roll') return false;
+        roll(G); return true;
+      case 'buy':
+        if (G.phase !== 'buy' || p.cash < SQ[G.buy].p) return false;
+        s = SQ[G.buy]; p.cash -= s.p; G.owner[G.buy] = G.turn;
+        say(G, G.turn, p.name + ' mua ' + s.n + ' giá ' + fmt(s.p) + 'tr.');
+        G.buy = -1; G.phase = 'moving'; settle(G);
+        return true;
+      case 'decline':
+        if (G.phase !== 'buy') return false;
+        say(G, G.turn, p.name + ' bỏ qua ' + SQ[G.buy].n + '.');
+        G.buy = -1; G.phase = 'moving'; settle(G);
+        return true;
+      case 'endTurn':
+        if (G.phase !== 'action') return false;
+        nextTurn(G); return true;
+      case 'payJail':
+        if (G.phase !== 'roll' || p.jail <= 0 || p.cash < 50) return false;
+        p.cash -= 50; p.jail = 0; say(G, G.turn, p.name + ' nộp 50tr để ra tù.');
+        return true;
+      case 'useCard':
+        if (G.phase !== 'roll' || p.jail <= 0 || p.cards <= 0) return false;
+        p.cards--; p.jail = 0; say(G, G.turn, p.name + ' dùng thẻ ra tù miễn phí.');
+        return true;
+      case 'payDebt': {
+        if (G.phase !== 'debt' || p.cash < G.debt.amt) return false;
+        var d = G.debt;
+        p.cash -= d.amt; credit(G, d.to, d.amt); G.debt = null;
+        say(G, G.turn, p.name + ' đã trả nợ ' + fmt(d.amt) + 'tr.');
+        G.phase = 'moving';
+        if (G.afterDebt) { var st = G.afterDebt; G.afterDebt = 0; doMove(G, st); } else settle(G);
+        return true;
+      }
+      case 'bankrupt':
+        if (G.phase !== 'debt') return false;
+        goBankrupt(G); return true;
+      case 'build':
+        if (!canBuild(G, G.turn, sq)) return false;
+        s = SQ[sq]; p.cash -= s.h; G.houses[sq]++;
+        say(G, G.turn, p.name + (G.houses[sq] === 5 ? ' nâng khách sạn ở ' : ' xây nhà ở ') + s.n + ' (−' + fmt(s.h) + 'tr).');
+        return true;
+      case 'sell':
+        if (!canSell(G, G.turn, sq)) return false;
+        s = SQ[sq]; p.cash += s.h / 2; G.houses[sq]--;
+        say(G, G.turn, p.name + ' bán một nhà ở ' + s.n + ' (+' + fmt(s.h / 2) + 'tr).');
+        return true;
+      case 'mortgage':
+        if (!canMort(G, G.turn, sq)) return false;
+        s = SQ[sq]; p.cash += s.p / 2; G.mort[sq] = true;
+        say(G, G.turn, p.name + ' thế chấp ' + s.n + ' (+' + fmt(s.p / 2) + 'tr).');
+        return true;
+      case 'unmortgage':
+        if (!canUnmort(G, G.turn, sq)) return false;
+        s = SQ[sq]; p.cash -= mortCost(sq); G.mort[sq] = false;
+        say(G, G.turn, p.name + ' chuộc lại ' + s.n + ' (−' + fmt(mortCost(sq)) + 'tr).');
+        return true;
+    }
+    return false;
+  }
+
+  // ---------- AI ----------
+  function aiChoose(G) {
+    var pid = G.turn, p = G.players[pid], lv = G.level, sq, s, best, i;
+    var mine = [];
+    for (sq = 0; sq < 40; sq++) if (G.owner[sq] === pid) mine.push(sq);
+    if (G.phase === 'debt') {
+      if (p.cash >= G.debt.amt) return { a: 'payDebt' };
+      var pot = p.cash;
+      mine.forEach(function (x) {
+        if (SQ[x].t === 'prop') pot += G.houses[x] * SQ[x].h / 2;
+        if (!G.mort[x]) pot += SQ[x].p / 2;
+      });
+      if (pot < G.debt.amt) return { a: 'bankrupt' };
+      best = -1;
+      mine.forEach(function (x) { if (canSell(G, pid, x) && (best < 0 || G.houses[x] > G.houses[best])) best = x; });
+      if (best >= 0) return { a: 'sell', sq: best };
+      best = -1;
+      mine.forEach(function (x) { if (canMort(G, pid, x) && (best < 0 || SQ[x].p < SQ[best].p)) best = x; });
+      if (best >= 0) return { a: 'mortgage', sq: best };
+      return { a: 'bankrupt' };
+    }
+    if (G.phase === 'buy') {
+      s = SQ[G.buy];
+      var need = lv === 'hard' ? 50 : lv === 'easy' ? 250 : 120;
+      var ok = p.cash >= s.p && p.cash - s.p >= need;
+      if (lv === 'easy' && rnd(G) < 0.3) ok = false;
+      if (!ok && p.cash >= s.p && s.t === 'prop' && ownsGroupAfter(G, pid, G.buy)) ok = true;
+      return { a: ok ? 'buy' : 'decline' };
+    }
+    if (G.phase === 'roll' || G.phase === 'action') {
+      var res = lv === 'hard' ? 100 : lv === 'easy' ? 400 : 200;
+      best = -1;
+      mine.forEach(function (x) { if (G.mort[x] && p.cash - mortCost(x) >= res + 200 && (best < 0 || SQ[x].p > SQ[best].p)) best = x; });
+      if (best >= 0) return { a: 'unmortgage', sq: best };
+      if (!(lv === 'easy' && rnd(G) < 0.5)) {
+        best = -1;
+        mine.forEach(function (x) {
+          if (SQ[x].t !== 'prop' || !canBuild(G, pid, x) || p.cash - SQ[x].h < res) return;
+          if (best < 0 || G.houses[x] < G.houses[best] || (G.houses[x] === G.houses[best] && SQ[x].g > SQ[best].g)) best = x;
+        });
+        if (best >= 0) return { a: 'build', sq: best };
+      }
+      if (G.phase === 'roll') {
+        if (p.jail > 0) {
+          if (p.cards > 0) return { a: 'useCard' };
+          if (lv !== 'easy' && p.cash >= res + 150) return { a: 'payJail' };
+        }
+        return { a: 'roll' };
+      }
+      return { a: 'endTurn' };
+    }
+    return null;
+  }
+  function ownsGroupAfter(G, pid, sq) {
+    var g = SQ[sq].g;
+    return GROUPS[g].every(function (x) { return x === sq || G.owner[x] === pid; });
+  }
+
+  return {
+    SQ: SQ, GROUPS: GROUPS, COLORS: COLORS, CHANCE: CHANCE, COMM: COMM,
+    fmt: fmt, create: create, act: act, aiChoose: aiChoose, rentOf: rentOf, mortCost: mortCost, netWorth: netWorth,
+    manageOK: manageOK, canBuild: canBuild, canSell: canSell, canMort: canMort, canUnmort: canUnmort
+  };
+}
+if (typeof module !== 'undefined') module.exports = TPEngine;
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var TP = TPEngine(), SQ = TP.SQ, COLORS = TP.COLORS;
+  var PCOL = ['#d9453b', '#2f6fd6', '#d99a12', '#8e5bc9'];
+  var PIPS = { 1: [5], 2: [1, 9], 3: [1, 5, 9], 4: [1, 3, 7, 9], 5: [1, 3, 5, 7, 9], 6: [1, 3, 4, 6, 7, 9] };
+  var LV = { easy: 'Dễ', mid: 'Vừa', hard: 'Khó' };
+
+  var S = {
+    seats: null, level: 'mid', G: null, disp: [0, 0, 0, 0], busy: false, rolling: false, faces: [1, 1],
+    modal: null, hideOver: false, gen: 0, sig: '', started: false, timer: null, aiTimer: null
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function fmt(n) { return TP.fmt(n) + 'tr'; }
+  function root() { return $('view-tycoon'); }
+  function visible() { return !root().hidden; }
+
+  // ---------- thiết lập ----------
+  function preset(kind) {
+    if (kind === 'ai') S.seats = [{ name: 'Bạn', ai: false }, { name: 'Máy 2', ai: true }, { name: 'Máy 3', ai: true }, { name: 'Máy 4', ai: true }];
+    else S.seats = [1, 2, 3, 4].map(function (i) { return { name: 'Người chơi ' + i, ai: false }; });
+  }
+  function presetKind() {
+    var s = S.seats;
+    if (!s[0].ai && s[1].ai && s[2].ai && s[3].ai) return 'ai';
+    if (!s[0].ai && !s[1].ai && !s[2].ai && !s[3].ai) return 'local';
+    return '';
+  }
+  function loadSettings() {
+    preset('ai');
+    try {
+      var o = JSON.parse(localStorage.getItem('tp-settings') || 'null');
+      if (!o) return;
+      if (LV[o.level]) S.level = o.level;
+      if (Array.isArray(o.seats) && o.seats.length === 4) {
+        S.seats = o.seats.map(function (x, i) { return { name: String(x.name || '').slice(0, 14), ai: !!x.ai }; });
+      }
+    } catch (e) { /* storage unavailable */ }
+  }
+  function saveSettings() {
+    try { localStorage.setItem('tp-settings', JSON.stringify({ seats: S.seats, level: S.level })); } catch (e) { /* ignore */ }
+  }
+
+  function renderSetup() {
+    var pk = presetKind(), anyAI = S.seats.some(function (s) { return s.ai; });
+    var h = '<h2 class="tp-h">Thiết lập ván chơi</h2>';
+    h += '<div class="field"><span class="label">Chế độ</span><div class="seg">' +
+      '<button type="button" data-tp="preset" data-v="ai" aria-pressed="' + (pk === 'ai') + '">Chơi với máy</button>' +
+      '<button type="button" data-tp="preset" data-v="local" aria-pressed="' + (pk === 'local') + '">4 người một máy</button></div></div>';
+    h += '<div class="tp-seats">';
+    S.seats.forEach(function (s, i) {
+      h += '<div class="tp-seat"><span class="pdot" style="--c:' + PCOL[i] + '">' + (i + 1) + '</span>' +
+        '<input class="tp-name" data-seat="' + i + '" maxlength="14" value="' + esc(s.name) + '" aria-label="Tên người chơi ' + (i + 1) + '">' +
+        '<div class="seg"><button type="button" data-tp="seat" data-i="' + i + '" data-v="h" aria-pressed="' + (!s.ai) + '">Người</button>' +
+        '<button type="button" data-tp="seat" data-i="' + i + '" data-v="a" aria-pressed="' + s.ai + '">Máy</button></div></div>';
+    });
+    h += '</div>';
+    if (anyAI) {
+      h += '<div class="field"><span class="label">Độ khó của máy</span><div class="seg">';
+      Object.keys(LV).forEach(function (k) {
+        h += '<button type="button" data-tp="level" data-v="' + k + '" aria-pressed="' + (S.level === k) + '">' + LV[k] + '</button>';
+      });
+      h += '</div></div>';
+    }
+    h += '<div class="actions"><button type="button" class="btn primary" data-tp="start">Bắt đầu chơi</button></div>';
+    $('tpSetup').innerHTML = h;
+  }
+
+  function showSetup() {
+    stopAll();
+    S.G = null; S.modal = null;
+    $('tpSetup').hidden = false; $('tpPlay').hidden = true;
+    $('tpPlayers').hidden = true; $('tpActions').hidden = true; $('tpLogBox').hidden = true;
+    $('tpModal').hidden = true;
+    renderSetup();
+  }
+
+  function stopAll() {
+    S.gen++;
+    clearTimeout(S.timer); clearTimeout(S.aiTimer);
+    S.busy = false; S.rolling = false;
+  }
+
+  function startGame() {
+    stopAll();
+    var players = S.seats.map(function (s, i) {
+      var nm = String(s.name || '').trim() || (s.ai ? 'Máy ' + (i + 1) : 'Người chơi ' + (i + 1));
+      return { name: nm, ai: s.ai };
+    });
+    saveSettings();
+    S.G = TP.create({ players: players, level: S.level, seed: (Math.random() * 4294967296) | 0 });
+    S.disp = [0, 0, 0, 0]; S.hideOver = false; S.modal = null; S.sig = '';
+    $('tpSetup').hidden = true; $('tpPlay').hidden = false;
+    $('tpPlayers').hidden = false; $('tpActions').hidden = false; $('tpLogBox').hidden = false;
+    buildBoard();
+    render();
+    pump();
+  }
+
+  // ---------- bàn cờ ----------
+  function cellPos(i) {
+    if (i <= 10) return { c: 10 - i, r: 10 };
+    if (i <= 20) return { c: 0, r: 20 - i };
+    if (i <= 30) return { c: i - 20, r: 0 };
+    return { c: 10, r: i - 30 };
+  }
+  function sideOf(i) {
+    if (i % 10 === 0) return 'c';
+    if (i < 10) return 'b';
+    if (i < 20) return 'l';
+    if (i < 30) return 't';
+    return 'r';
+  }
+  function center(k) { return (k === 0 ? 0.75 : k === 10 ? 11.25 : 1.5 + (k - 1) + 0.5) * 100 / 12; }
+
+  function buildBoard() {
+    var h = '<div class="tp-board" id="tpBoard"><div class="tp-grid" id="tpGrid"></div>' +
+      '<div class="tp-center"><div class="c-logo">Cờ Tỷ Phú</div><div class="c-dice" id="tpDice"></div>' +
+      '<div class="c-event" id="tpEvent" aria-live="polite"></div><div class="c-prompt" id="tpPrompt"></div></div>' +
+      '<div class="tp-tokens" id="tpTok">';
+    for (var i = 0; i < 4; i++) {
+      h += '<span class="tk" data-p="' + i + '" style="--c:' + PCOL[i] + ';--dx:' + (((i % 2) * 2 - 1) * 1.3) + 'cqw;--dy:' + (((i >> 1) * 2 - 1) * 1.3) + 'cqw">' + (i + 1) + '</span>';
+    }
+    h += '</div></div><div class="ov" id="tpOv"></div>';
+    $('tpPlay').innerHTML = h;
+  }
+
+  function cellHTML(i) {
+    var s = SQ[i], G = S.G, o = G.owner[i], h = G.houses[i], m = G.mort[i], pos = cellPos(i), inner = '', k;
+    var cls = 'sq t-' + s.t + ' sd-' + sideOf(i) + (o >= 0 ? ' owned' : '') + (m ? ' mort' : '');
+    var st = 'grid-column:' + (pos.c + 1) + ';grid-row:' + (pos.r + 1) + (o >= 0 ? ';--oc:' + PCOL[o] : '');
+    if (s.t === 'prop') {
+      var hs = '';
+      if (h === 5) hs = '<b class="H"></b>'; else for (k = 0; k < h; k++) hs += '<b></b>';
+      inner = '<span class="bar" style="background:' + COLORS[s.g] + '">' + hs + '</span><span class="tx"><span class="nm">' + s.n + '</span><span class="pr">' + s.p + 'tr</span></span>';
+    } else if (s.t === 'st') inner = '<span class="tx"><span class="ic">🚆</span><span class="nm">' + s.n + '</span><span class="pr">200tr</span></span>';
+    else if (s.t === 'ut') inner = '<span class="tx"><span class="ic">' + (s.n.indexOf('Điện') >= 0 ? '💡' : '🚰') + '</span><span class="nm">' + s.n + '</span><span class="pr">150tr</span></span>';
+    else if (s.t === 'tax') inner = '<span class="tx"><span class="ic">💰</span><span class="nm">' + s.n + '</span><span class="pr">−' + s.p + 'tr</span></span>';
+    else if (s.t === 'chance') inner = '<span class="tx"><span class="ic">❓</span><span class="nm">' + s.n + '</span></span>';
+    else if (s.t === 'comm') inner = '<span class="tx"><span class="ic">🎁</span><span class="nm">' + s.n + '</span></span>';
+    else if (s.t === 'go') inner = '<span class="tx"><span class="ic">➜</span><span class="nm">XUẤT PHÁT</span><span class="pr">+200tr</span></span>';
+    else if (s.t === 'jail') inner = '<span class="tx"><span class="ic">⛓</span><span class="nm">NHÀ TÙ</span><span class="pr">Thăm tù</span></span>';
+    else if (s.t === 'park') inner = '<span class="tx"><span class="ic">🅿</span><span class="nm">BÃI ĐỖ XE</span><span class="pr">Nghỉ ngơi</span></span>';
+    else inner = '<span class="tx"><span class="ic">👮</span><span class="nm">VÀO TÙ</span></span>';
+    return '<button type="button" class="' + cls + '" style="' + st + '" data-tp="sq" data-sq="' + i + '" aria-label="' + esc(s.n) + '">' + inner + '</button>';
+  }
+
+  function renderGrid() {
+    var G = S.G, sig = G.owner.join() + '|' + G.houses.join() + '|' + G.mort.join();
+    if (sig === S.sig) return;
+    S.sig = sig;
+    var h = '';
+    for (var i = 0; i < 40; i++) h += cellHTML(i);
+    $('tpGrid').innerHTML = h;
+  }
+
+  function placeTok(i) {
+    var G = S.G, p = G.players[i], el = document.querySelector('#tpTok .tk[data-p="' + i + '"]');
+    if (!el) return;
+    var c = cellPos(S.disp[i]);
+    el.style.left = center(c.c) + '%';
+    el.style.top = center(c.r) + '%';
+    el.hidden = !!p.bankrupt;
+    el.classList.toggle('cur', i === G.turn && G.phase !== 'over');
+    el.classList.toggle('jailed', p.jail > 0);
+  }
+  function placeAll() { for (var i = 0; i < 4; i++) placeTok(i); }
+
+  function die(v, roll) {
+    var on = PIPS[v] || [], s = '<span class="die' + (roll ? ' roll' : '') + '" aria-hidden="true">';
+    for (var k = 1; k <= 9; k++) s += '<i' + (on.indexOf(k) >= 0 ? ' class="on"' : '') + '></i>';
+    return s + '</span>';
+  }
+  function renderDice() {
+    var f = S.rolling ? S.faces : S.G.dice;
+    $('tpDice').innerHTML = die(f[0], S.rolling) + die(f[1], S.rolling) + '<span class="sr">' + f[0] + ' và ' + f[1] + '</span>';
+  }
+
+  function btn(label, tp, cls, extra) {
+    return '<button type="button" class="btn' + (cls ? ' ' + cls : '') + '" data-tp="' + tp + '"' + (extra || '') + '>' + label + '</button>';
+  }
+
+  function renderPrompt() {
+    var G = S.G, p = G.players[G.turn], h = '', ev = '';
+    var last = G.log.slice(-2);
+    last.forEach(function (e) { ev += '<div>' + esc(e.t) + '</div>'; });
+    $('tpEvent').innerHTML = ev;
+    if (G.phase === 'over') { $('tpPrompt').innerHTML = ''; return; }
+    var head = '<div class="c-turn"><span class="pdot" style="--c:' + PCOL[G.turn] + '">' + (G.turn + 1) + '</span>' + esc(p.name) + (p.ai ? ' <small>(máy)</small>' : '') + '</div>';
+    if (p.ai) h = head + '<div class="c-note thinking">Máy đang nghĩ<i></i><i></i><i></i></div>';
+    else if (G.phase === 'roll') {
+      h = head;
+      if (p.jail > 0) h += '<div class="c-note">Đang ở tù (lần ' + p.jail + '/3). Tung đôi để ra, hoặc:</div>';
+      h += '<div class="c-btns">' + btn('Tung xúc xắc', 'roll', 'primary');
+      if (p.jail > 0 && p.cash >= 50) h += btn('Nộp 50tr ra tù', 'payJail');
+      if (p.jail > 0 && p.cards > 0) h += btn('Dùng thẻ ra tù', 'useCard');
+      h += btn('Tài sản', 'assets') + '</div>';
+    } else if (G.phase === 'buy') {
+      var s = SQ[G.buy], can = p.cash >= s.p;
+      h = head + '<div class="c-buy"><span class="c-bar" style="background:' + (s.t === 'prop' ? COLORS[s.g] : 'var(--disc-ring)') + '"></span><b>' + s.n + '</b><span>Giá ' + fmt(s.p) + ' · bạn có ' + fmt(p.cash) + '</span></div>' +
+        '<div class="c-btns">' + btn('Mua', 'buy', 'primary', can ? '' : ' disabled') + btn('Bỏ qua', 'decline') + btn('Tài sản', 'assets') + '</div>';
+      if (!can) h += '<div class="c-note">Chưa đủ tiền. Có thể thế chấp tài sản rồi quay lại mua.</div>';
+    } else if (G.phase === 'debt') {
+      var d = G.debt, to = d.to >= 0 ? G.players[d.to].name : d.to === -2 ? 'các người chơi' : 'ngân hàng';
+      h = head + '<div class="c-note">Nợ <b>' + fmt(d.amt) + '</b> cho ' + esc(to) + ' (bạn có ' + fmt(p.cash) + '). Bán nhà hoặc thế chấp để có tiền.</div>' +
+        '<div class="c-btns">' + btn('Trả nợ', 'payDebt', 'primary', p.cash >= d.amt ? '' : ' disabled') + btn('Tài sản', 'assets') + btn('Phá sản', 'bankrupt') + '</div>';
+    } else {
+      h = head + '<div class="c-btns">' + btn('Kết thúc lượt', 'endTurn', 'primary') + btn('Tài sản', 'assets') + '</div>';
+    }
+    $('tpPrompt').innerHTML = h;
+  }
+
+  function renderPlayers() {
+    var G = S.G, h = '';
+    G.players.forEach(function (p, i) {
+      var n = 0;
+      for (var s = 0; s < 40; s++) if (G.owner[s] === i) n++;
+      h += '<button type="button" class="pl' + (i === G.turn && G.phase !== 'over' ? ' cur' : '') + (p.bankrupt ? ' out' : '') + '" data-tp="openpl" data-i="' + i + '">' +
+        '<span class="pl-n"><span class="pdot" style="--c:' + PCOL[i] + '">' + (i + 1) + '</span><span class="pl-nm">' + esc(p.name) + '</span>' + (p.ai ? '<small>Máy</small>' : '') + '</span>' +
+        '<span class="pl-c">' + fmt(p.cash) + '</span>' +
+        '<span class="pl-s">' + (p.bankrupt ? 'Phá sản' : n + ' tài sản' + (p.jail ? ' · trong tù' : '') + (p.cards ? ' · ' + p.cards + ' thẻ' : '')) + '</span></button>';
+    });
+    $('tpPlayers').innerHTML = h;
+  }
+
+  function renderLog() {
+    var ol = $('tpLog');
+    ol.innerHTML = S.G.log.slice(-60).map(function (e) {
+      return '<li><i style="background:' + (e.p >= 0 ? PCOL[e.p] : 'var(--line)') + '"></i><span>' + esc(e.t) + '</span></li>';
+    }).join('');
+    ol.scrollTop = ol.scrollHeight;
+  }
+
+  // ---------- cửa sổ tài sản / ô cờ ----------
+  function rentLines(s) {
+    var r = '';
+    if (s.t === 'prop') {
+      var names = ['Đất trống', 'Có cả nhóm màu', '1 nhà', '2 nhà', '3 nhà', '4 nhà', 'Khách sạn'];
+      r = '<div class="pm-tbl"><span>' + names[0] + '</span><span>' + fmt(s.r[0]) + '</span><span>' + names[1] + '</span><span>' + fmt(s.r[0] * 2) + '</span>';
+      for (var k = 1; k <= 5; k++) r += '<span>' + names[k + 1] + '</span><span>' + fmt(s.r[k]) + '</span>';
+      r += '<span>Giá một nhà</span><span>' + fmt(s.h) + '</span></div>';
+    } else if (s.t === 'st') r = '<div class="pm-tbl"><span>1 ga</span><span>25tr</span><span>2 ga</span><span>50tr</span><span>3 ga</span><span>100tr</span><span>4 ga</span><span>200tr</span></div>';
+    else if (s.t === 'ut') r = '<div class="pm-tbl"><span>1 công ty</span><span>4 × số xúc xắc</span><span>2 công ty</span><span>10 × số xúc xắc</span></div>';
+    return r;
+  }
+
+  function modalHTML() {
+    var G = S.G, m = S.modal, h = '';
+    if (m.k === 'sq') {
+      var s = SQ[m.sq], o = G.owner[m.sq];
+      h = '<div class="pm-head"><h3>' + (s.t === 'prop' ? '<span class="pm-chip" style="background:' + COLORS[s.g] + '"></span>' : '') + esc(s.n) + '</h3>' + btn('Đóng', 'close', 'sm') + '</div>';
+      if (s.p && (s.t === 'prop' || s.t === 'st' || s.t === 'ut')) {
+        h += '<div class="pm-sub">Giá mua ' + fmt(s.p) + ' · thế chấp nhận ' + fmt(s.p / 2) + '</div>' + rentLines(s);
+        h += '<div class="pm-sub">' + (o < 0 ? 'Chưa có chủ.' : 'Chủ sở hữu: ' + esc(G.players[o].name) + (G.mort[m.sq] ? ' (đang thế chấp)' : '') + (SQ[m.sq].t === 'prop' && G.houses[m.sq] ? ' · ' + (G.houses[m.sq] === 5 ? 'khách sạn' : G.houses[m.sq] + ' nhà') : '')) + '</div>';
+      } else {
+        var info = { go: 'Mỗi lần đi qua hoặc dừng ở đây nhận 200tr.', jail: 'Chỉ đến thăm nếu không bị giam. Bị giam thì tung đôi, nộp 50tr hoặc dùng thẻ để ra.', park: 'Ô nghỉ, không có gì xảy ra.', gojail: 'Dừng ở đây là vào thẳng nhà tù.', tax: 'Nộp ' + fmt(s.p) + ' cho ngân hàng.', chance: 'Rút một thẻ Cơ hội.', comm: 'Rút một thẻ Khí vận.' };
+        h += '<div class="pm-sub">' + info[s.t] + '</div>';
+      }
+      return h;
+    }
+    var pid = m.p, p = G.players[pid], editable = TP.manageOK(G, pid) && !p.ai;
+    h = '<div class="pm-head"><h3><span class="pdot" style="--c:' + PCOL[pid] + '">' + (pid + 1) + '</span>' + esc(p.name) + '</h3>' + btn('Đóng', 'close', 'sm') + '</div>';
+    h += '<div class="pm-sub">Tiền mặt ' + fmt(p.cash) + ' · tổng tài sản ' + fmt(Math.round(TP.netWorth(G, pid))) + (p.cards ? ' · ' + p.cards + ' thẻ ra tù' : '') + (p.bankrupt ? ' · đã phá sản' : '') + '</div>';
+    var any = false;
+    for (var sq = 0; sq < 40; sq++) {
+      if (G.owner[sq] !== pid) continue;
+      any = true;
+      var q = SQ[sq], st = '';
+      if (q.t === 'prop' && G.houses[sq]) st = G.houses[sq] === 5 ? 'khách sạn' : G.houses[sq] + ' nhà';
+      if (G.mort[sq]) st = (st ? st + ', ' : '') + 'thế chấp';
+      var bs = '';
+      if (editable) {
+        if (q.t === 'prop') {
+          if (TP.canBuild(G, pid, sq)) bs += '<button type="button" class="btn sm" data-tp="build" data-sq="' + sq + '">' + (G.houses[sq] === 4 ? 'Nâng khách sạn' : 'Xây nhà') + ' −' + fmt(q.h) + '</button>';
+          if (TP.canSell(G, pid, sq)) bs += '<button type="button" class="btn sm" data-tp="sell" data-sq="' + sq + '">Bán nhà +' + fmt(q.h / 2) + '</button>';
+        }
+        if (TP.canMort(G, pid, sq)) bs += '<button type="button" class="btn sm" data-tp="mortgage" data-sq="' + sq + '">Thế chấp +' + fmt(q.p / 2) + '</button>';
+        if (G.mort[sq]) bs += '<button type="button" class="btn sm" data-tp="unmortgage" data-sq="' + sq + '"' + (TP.canUnmort(G, pid, sq) ? '' : ' disabled') + '>Chuộc −' + fmt(TP.mortCost(sq)) + '</button>';
+      }
+      h += '<div class="pm-row"><span class="pm-chip" style="background:' + (q.t === 'prop' ? COLORS[q.g] : 'var(--disc-ring)') + '"></span>' +
+        '<span><span class="pm-n">' + esc(q.n) + '</span><span class="pm-s">' + fmt(q.p) + (st ? ' · ' + st : '') + '</span></span>' + (bs ? '<span class="pm-b">' + bs + '</span>' : '') + '</div>';
+    }
+    if (!any) h += '<div class="pm-sub">Chưa có tài sản nào.</div>';
+    else if (editable) h += '<div class="pm-sub">Xây nhà cần giữ đủ cả nhóm màu và xây đều giữa các ô.</div>';
+    return h;
+  }
+
+  function renderModal() {
+    var el = $('tpModal');
+    if (!S.modal || !S.G) { el.hidden = true; el.innerHTML = ''; return; }
+    el.hidden = false;
+    el.innerHTML = '<div class="tp-mbox" role="dialog" aria-modal="true">' + modalHTML() + '</div>';
+  }
+
+  function confetti() {
+    var cols = ['var(--accent)', 'var(--disc-ring)', '#d1372e', '#efd13a'], s = '<div class="confetti" aria-hidden="true">';
+    for (var i = 0; i < 34; i++) {
+      s += '<i style="--x:' + (Math.random() * 100).toFixed(1) + '%;--r:' + ((Math.random() * 360) | 0) + 'deg;--d:' + (1.6 + Math.random() * 1.4).toFixed(2) + 's;--dl:' + (0.7 + Math.random() * 0.9).toFixed(2) + 's;--c:' + cols[i % cols.length] + '"></i>';
+    }
+    return s + '</div>';
+  }
+  function renderOver() {
+    var G = S.G, el = $('tpOv');
+    if (G.phase !== 'over' || S.hideOver) { el.innerHTML = ''; return; }
+    var w = G.players[G.winner];
+    el.innerHTML = '<div class="result" role="status">' + (w.ai ? '' : confetti()) +
+      '<div class="result-card"><div class="result-title">' + esc(w.name) + ' thắng</div><div class="result-sub">Tổng tài sản ' + fmt(Math.round(TP.netWorth(G, G.winner))) + ' sau ' + G.round + ' vòng.</div>' +
+      '<div class="result-actions"><button type="button" class="btn primary" data-tp="setup">Ván mới</button><button type="button" class="btn" data-tp="closeov">Xem bàn cờ</button></div></div></div>';
+  }
+
+  function render() {
+    renderGrid(); renderDice(); renderPrompt(); renderPlayers(); renderLog(); renderModal(); renderOver(); placeAll();
+  }
+
+  // ---------- điều khiển ----------
+  function rand6() { return 1 + ((Math.random() * 6) | 0); }
+
+  function request(a) {
+    if (S.busy || !S.G || S.G.phase === 'over') return;
+    if (a.a === 'roll') { rollFx(a); return; }
+    run(a);
+  }
+
+  function rollFx(a) {
+    var gen = S.gen, n = 0;
+    S.busy = true; S.rolling = true;
+    (function tick() {
+      if (gen !== S.gen) return;
+      S.faces = [rand6(), rand6()];
+      renderDice();
+      if (++n < 9) S.timer = setTimeout(tick, 70);
+      else { S.rolling = false; S.busy = false; run(a); }
+    })();
+  }
+
+  function run(a) {
+    var G = S.G, gen = S.gen;
+    if (!TP.act(G, a)) { render(); pump(); return; }
+    S.busy = true;
+    renderDice();
+    var steps = [];
+    G.players.forEach(function (p, i) {
+      var from = S.disp[i], to = p.pos;
+      if (from === to) return;
+      var d = (to - from + 40) % 40, k;
+      if (d <= 12) for (k = 1; k <= d; k++) steps.push({ i: i, sq: (from + k) % 40, t: 150 });
+      else steps.push({ i: i, sq: to, t: 380 });
+    });
+    (function next() {
+      if (gen !== S.gen) return;
+      var st = steps.shift();
+      if (!st) { S.busy = false; render(); pump(); return; }
+      S.disp[st.i] = st.sq;
+      placeTok(st.i);
+      S.timer = setTimeout(next, st.t);
+    })();
+  }
+
+  function pump() {
+    clearTimeout(S.aiTimer);
+    var G = S.G;
+    if (!G || S.busy || G.phase === 'over' || !G.players[G.turn].ai) return;
+    var gen = S.gen;
+    S.aiTimer = setTimeout(function () {
+      if (gen !== S.gen || S.busy || !S.G) return;
+      if (!visible()) return;
+      var a = TP.aiChoose(S.G);
+      if (a) request(a);
+    }, S.G.phase === 'roll' ? 800 : 500);
+  }
+
+  var SIMPLE = { roll: 1, buy: 1, decline: 1, endTurn: 1, payJail: 1, useCard: 1, payDebt: 1, bankrupt: 1 };
+  var SQACT = { build: 1, sell: 1, mortgage: 1, unmortgage: 1 };
+
+  root().addEventListener('click', function (e) {
+    var t = e.target.closest ? e.target.closest('[data-tp]') : null;
+    if (!t) {
+      if (e.target === $('tpModal')) { S.modal = null; renderModal(); }
+      return;
+    }
+    var k = t.getAttribute('data-tp'), v = t.getAttribute('data-v'), i = +t.getAttribute('data-i');
+    if (t.disabled) return;
+    if (SIMPLE[k]) { if (!S.G || S.G.players[S.G.turn].ai) return; request({ a: k }); return; }
+    if (SQACT[k]) { if (!S.G || S.G.players[S.G.turn].ai) return; request({ a: k, sq: +t.getAttribute('data-sq') }); return; }
+    switch (k) {
+      case 'preset': preset(v); renderSetup(); break;
+      case 'seat':
+        S.seats[i].ai = v === 'a';
+        if (S.seats[i].ai && /^Người chơi \d$|^Bạn$/.test(S.seats[i].name)) S.seats[i].name = 'Máy ' + (i + 1);
+        else if (!S.seats[i].ai && /^Máy \d$/.test(S.seats[i].name)) S.seats[i].name = 'Người chơi ' + (i + 1);
+        renderSetup(); break;
+      case 'level': S.level = v; renderSetup(); break;
+      case 'start': startGame(); break;
+      case 'setup': showSetup(); break;
+      case 'assets': S.modal = { k: 'pl', p: S.G.turn }; renderModal(); break;
+      case 'openpl': S.modal = { k: 'pl', p: i }; renderModal(); break;
+      case 'sq': S.modal = { k: 'sq', sq: +t.getAttribute('data-sq') }; renderModal(); break;
+      case 'close': S.modal = null; renderModal(); break;
+      case 'closeov': S.hideOver = true; renderOver(); break;
+    }
+  });
+  root().addEventListener('input', function (e) {
+    var t = e.target;
+    if (t.getAttribute && t.getAttribute('data-seat') !== null) S.seats[+t.getAttribute('data-seat')].name = t.value;
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && S.modal) { S.modal = null; renderModal(); }
+  });
+
+  window.__tpStart = function () {
+    if (!S.started) { S.started = true; loadSettings(); showSetup(); }
+    else if (S.G) pump();
+  };
+})();
+
+</script>
+<script>
 (function () {
   'use strict';
   var home = document.getElementById('view-home');
-  var views = { 'co-tuong': document.getElementById('view-xiangqi'), 'co-vua': document.getElementById('view-chess') };
-  var starters = { 'co-tuong': '__xqStart', 'co-vua': '__chStart' };
+  var views = { 'co-tuong': document.getElementById('view-xiangqi'), 'co-vua': document.getElementById('view-chess'), 'ty-phu': document.getElementById('view-tycoon') };
+  var starters = { 'co-tuong': '__xqStart', 'co-vua': '__chStart', 'ty-phu': '__tpStart' };
   var current = null;
   function route() {
     var h = (location.hash || '').replace('#', '');
