@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Phòng Game</title>
+<title>My Games</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
@@ -163,87 +163,249 @@
     .moved .pc-in, .chk, .thinking i { animation: none; }
   }
 
-  /* ---- Phòng Game: trang chủ ---- */
+  /* ================= Phòng Game: tokens, trang chủ, hiệu ứng ================= */
   :root {
     --chess-l: #e0e8de; --chess-d: #6e9482; --chess-piece: #1f2d27;
-    --sq-l: #dfe7d9; --sq-d: #7b9c87; --sq-frame: #c8d3c5; --coord: #4d6055;
+    --sq-l: #dfe7d9; --sq-d: #7b9c87; --sq-frame: #86633b; --coord: #f0e4c8; --frame-grain: #2f1c08;
     --pw-fill: #fbf7ec; --pw-line: #1b1a17; --pb-fill: #1d1c19; --pb-line: #f5efe0;
+    --disc-hi: #fffaf0; --disc-lo: #cdb787;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --chess-l: #34483f; --chess-d: #1d2b25; --chess-piece: #eadfc6;
-      --sq-l: #4b6657; --sq-d: #243a30; --sq-frame: #16221d; --coord: #8fa699;
+      --sq-l: #4b6657; --sq-d: #243a30; --sq-frame: #3b2a17; --coord: #cdb98c; --frame-grain: #0d0802;
+      --disc-hi: #fff6e2; --disc-lo: #b79a64;
     }
   }
   :root[data-theme="dark"] {
     --chess-l: #34483f; --chess-d: #1d2b25; --chess-piece: #eadfc6;
-    --sq-l: #4b6657; --sq-d: #243a30; --sq-frame: #16221d; --coord: #8fa699;
+    --sq-l: #4b6657; --sq-d: #243a30; --sq-frame: #3b2a17; --coord: #cdb98c; --frame-grain: #0d0802;
+    --disc-hi: #fff6e2; --disc-lo: #b79a64;
   }
 
   [hidden] { display: none !important; }
-  .cap-row .label { width: 88px; }
+  body {
+    background-image:
+      radial-gradient(60rem 38rem at 100% -8%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 70%),
+      radial-gradient(52rem 34rem at -8% 108%, color-mix(in srgb, var(--board-edge) 20%, transparent), transparent 70%);
+    background-attachment: fixed;
+  }
+
+  /* trang chủ */
+  #view-home { position: relative; overflow-x: clip; min-height: min(78vh, 700px); }
   .hub { max-width: 1040px; margin-inline: auto; display: flex; flex-direction: column; gap: 28px; }
-  .hub-head h1 { margin: 0; font-size: 32px; line-height: 1.2; font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; }
+  .hub > :not(.deco) { position: relative; z-index: 1; }
+  .hub-head h1 { margin: 0; font-size: 34px; line-height: 1.2; font-weight: 700; letter-spacing: -0.015em; text-wrap: balance; }
   .hub-head p { margin: 6px 0 0; color: var(--muted); }
-  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 16px; }
-  .card { display: flex; flex-direction: column; gap: 16px; padding: 18px; min-width: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: inherit; text-decoration: none; transition: border-color 0.15s, transform 0.15s; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 18px; }
+  .card { display: flex; flex-direction: column; gap: 16px; padding: 20px; min-width: 0; border: 1px solid var(--line); border-radius: 18px; color: inherit; text-decoration: none;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 90%, #fff), var(--surface));
+    box-shadow: 0 16px 32px -22px rgba(0, 0, 0, 0.5); transition: border-color 0.2s, transform 0.25s, box-shadow 0.25s; }
   a.card { cursor: pointer; }
-  a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  a.card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 26px 44px -24px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--accent); }
   a.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .card h2 { margin: 0 0 4px; font-size: 20px; line-height: 1.3; font-weight: 600; }
+  .card h2 { margin: 0 0 4px; font-size: 21px; line-height: 1.3; font-weight: 600; }
   .card p { margin: 0; color: var(--muted); font-size: 14px; }
   .card .foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .logo { width: 96px; height: 96px; display: block; flex: none; }
+  .logo { width: 104px; height: 104px; display: block; flex: none; filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.28)); }
+  .lg-a, .lg-b, .lg-pawn { transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3); }
+  a.card:hover .lg-a { transform: translate(-5px, -4px) rotate(-8deg); }
+  a.card:hover .lg-b { transform: translate(5px, 4px) rotate(7deg); }
+  a.card:hover .lg-pawn { transform: translateY(-5px); }
   .tag { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 2px 10px; }
   .tag.ok { color: var(--accent); border-color: var(--accent); }
-  .go { font-size: 14px; font-weight: 600; color: var(--accent); }
-  .crumb { grid-column: 1 / -1; }
-  .back { border: 0; background: transparent; padding: 4px 0; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--muted); }
-  .back:hover { color: var(--fg); }
+  .go { font-size: 14px; font-weight: 600; color: var(--accent); transition: transform 0.25s; }
+  a.card:hover .go { transform: translateX(4px); }
+  .deco { position: absolute; pointer-events: none; user-select: none; opacity: 0.07; line-height: 1; z-index: 0; color: var(--fg); }
+  .deco.d1 { right: -6px; top: -26px; font-size: 300px; animation: floatA 16s ease-in-out infinite alternate; }
+  .deco.d2 { left: -28px; bottom: -6px; font-size: 270px; animation: floatB 19s ease-in-out infinite alternate; }
+  @keyframes floatA { from { transform: translate(0, 0) rotate(-4deg); } to { transform: translate(-18px, 22px) rotate(5deg); } }
+  @keyframes floatB { from { transform: translate(0, 0) rotate(5deg); } to { transform: translate(20px, -18px) rotate(-4deg); } }
 
-  /* ---- Cờ Vua ---- */
+  .crumb { grid-column: 1 / -1; }
+  .back { border: 0; background: transparent; padding: 4px 0; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.15s, transform 0.2s; }
+  .back:hover { color: var(--fg); transform: translateX(-3px); }
+
+  /* chuyển màn hình */
+  .view-enter { animation: viewIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  @keyframes viewIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes boardIn { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: none; } }
+  .view-enter .board-wrap { animation: boardIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .view-enter .panel > * { animation: rise 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 55ms + 120ms); }
+  .panel > :nth-child(1) { --i: 0; } .panel > :nth-child(2) { --i: 1; } .panel > :nth-child(3) { --i: 2; }
+  .panel > :nth-child(4) { --i: 3; } .panel > :nth-child(5) { --i: 4; } .panel > :nth-child(6) { --i: 5; }
+  .hub-head, .cards .card { animation: rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .cards .card { animation-delay: calc(var(--i, 0) * 90ms + 90ms); }
+
+  /* bảng điều khiển */
+  .status { position: relative; overflow: hidden; box-shadow: 0 14px 28px -20px rgba(0, 0, 0, 0.45); }
+  .status.busy::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--accent), transparent) no-repeat; background-size: 40% 100%; animation: sweep 1.3s ease-in-out infinite; }
+  @keyframes sweep { from { background-position: -40% 0; } to { background-position: 140% 0; } }
+  .dot { animation: dotPulse 2.4s ease-in-out infinite; }
+  @keyframes dotPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+  .btn { transition: transform 0.12s, border-color 0.15s, filter 0.15s; }
+  .btn:active:not(:disabled) { transform: scale(0.96); }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .seg button { transition: background 0.18s, color 0.18s; }
+
+  /* bàn cờ */
+  #boardWrap, .cw-wrap { position: relative; max-width: 560px; width: 100%; margin-inline: auto; border-radius: 14px; box-shadow: 0 30px 44px -26px rgba(0, 0, 0, 0.6), 0 2px 0 rgba(255, 255, 255, 0.05) inset; }
+  .ov { position: absolute; inset: 0; pointer-events: none; border-radius: 14px; overflow: hidden; }
+  .ov .promo, .ov .result { pointer-events: auto; }
+  .glyph, .gl2 { font-family: 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', 'DejaVu Sans', sans-serif; font-weight: 400; }
+  .clbl { font-family: var(--font-ui); font-size: 13px; font-weight: 600; fill: var(--coord); }
   .top .alt { font-size: 15px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; }
-  .cw-wrap { position: relative; max-width: 560px; width: 100%; margin-inline: auto; }
-  .glyph { font-family: 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', 'DejaVu Sans', sans-serif; font-weight: 400; }
-  .clbl { font-family: var(--font-ui); font-size: 13px; fill: var(--coord); }
   .dot[data-side="white"] { background: var(--pw-fill); border-color: var(--pw-line); box-shadow: none; }
   .dot[data-side="black"] { background: var(--pb-fill); border-color: var(--pb-line); box-shadow: none; }
-  .promo { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.4); border-radius: 12px; }
-  .promo-box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+
+  .pc-in, .gh-in { transform-box: fill-box; transform-origin: center; }
+  .pc-in.intro { animation: drop 0.55s cubic-bezier(0.2, 0.8, 0.3, 1) both; animation-delay: calc(var(--k, 0) * 15ms + 100ms); }
+  .pc-in.mv { animation: slide 0.34s cubic-bezier(0.25, 0.8, 0.3, 1) both; }
+  .pc-in.sel { animation: lift 0.16s ease-out both; }
+  .pc-in.sel .sh { transform: translate(3px, 7px); }
+  .gh-in { animation: poof 0.34s ease-in 0.2s both; }
+  .pt { animation: burst 0.55s ease-out 0.2s both; }
+  .dotm { transform-box: fill-box; transform-origin: center; animation: dotIn 0.2s ease-out both; }
+  .selsq { opacity: 0.4; animation: selBreath 1.5s ease-in-out infinite; }
+  .pulse { animation: selBreath 1.5s ease-in-out infinite; }
+  .capring { animation: dashMove 0.9s linear infinite; }
+  .chk0 { opacity: 0.9; }
+  .chk, .chk2 { transform-box: fill-box; transform-origin: center; animation: ripple 1.5s ease-out infinite; }
+  .chk2 { animation-delay: 0.75s; }
+  .wave { animation: drift 5s linear infinite; }
+  @keyframes drop { from { opacity: 0; transform: translateY(-24px) scale(1.12); } to { opacity: 1; transform: none; } }
+  @keyframes slide {
+    0% { transform: translate(var(--dx), var(--dy)) scale(1); }
+    50% { transform: translate(calc(var(--dx) * 0.5), calc(var(--dy) * 0.5)) scale(1.14); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+  @keyframes lift { from { transform: none; } to { transform: translateY(-5px) scale(1.07); } }
+  @keyframes poof { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(1.55); } }
+  @keyframes burst { from { opacity: 1; transform: translate(0, 0); } to { opacity: 0; transform: translate(var(--bx), var(--by)); } }
+  @keyframes dotIn { from { opacity: 0; transform: scale(0.2); } to { opacity: 0.8; transform: scale(1); } }
+  @keyframes selBreath { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
+  @keyframes dashMove { to { stroke-dashoffset: -24; } }
+  @keyframes ripple { 0% { opacity: 0.9; transform: scale(0.85); } 100% { opacity: 0; transform: scale(1.6); } }
+  @keyframes drift { to { transform: translateX(-60px); } }
+
+  /* kết quả ván cờ */
+  .result { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px;
+    background: radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.62)); animation: fadeIn 0.45s ease 0.75s both; }
+  .result-card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px 26px; text-align: center; min-width: min(80%, 280px);
+    box-shadow: 0 28px 54px -18px rgba(0, 0, 0, 0.7); animation: cardIn 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.15) 0.85s both; }
+  @keyframes cardIn { from { opacity: 0; transform: translateY(18px) scale(0.92); } to { opacity: 1; transform: none; } }
+  .result-title { font-size: 30px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+  .result-sub { color: var(--muted); margin-top: 4px; font-size: 14px; }
+  .result-actions { display: flex; gap: 8px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+  .confetti { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .confetti i { position: absolute; top: -14px; left: var(--x); width: 8px; height: 13px; border-radius: 2px; background: var(--c); opacity: 0; animation: fall var(--d) ease-in var(--dl) forwards; }
+  @keyframes fall {
+    0% { opacity: 1; transform: translateY(0) rotate(var(--r)); }
+    100% { opacity: 0; transform: translateY(640px) rotate(calc(var(--r) + 600deg)); }
+  }
+
+  /* cờ vua */
+  .promo { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.42); border-radius: 14px; animation: fadeIn 0.15s both; }
+  .promo-box { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; animation: cardIn 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
   .promo-row { display: flex; gap: 8px; }
-  .promo-btn { width: 66px; height: 66px; border: 1px solid var(--line); border-radius: 10px; background: var(--sq-l); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 46px; line-height: 1; padding: 0; }
-  .promo-btn:hover { border-color: var(--accent); }
+  .promo-btn { width: 66px; height: 66px; border: 1px solid var(--line); border-radius: 12px; background: var(--sq-l); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 46px; line-height: 1; padding: 0; transition: transform 0.15s, border-color 0.15s; }
+  .promo-btn:hover { border-color: var(--accent); transform: translateY(-3px); }
   .promo-btn .pw { color: var(--pw-fill); -webkit-text-stroke: 1.6px var(--pw-line); }
   .promo-btn .pb { color: var(--pb-fill); -webkit-text-stroke: 1px var(--pb-line); }
   .mini.chess { font-size: 18px; width: 26px; height: 26px; border-width: 1px; }
   .mini.cw { background: var(--pw-fill); color: var(--pw-line); border-color: var(--pw-line); }
   .mini.cb { background: var(--pb-fill); color: var(--pb-line); border-color: var(--pb-line); }
   .mini.chess .glyph { line-height: 1; }
-  @media (prefers-reduced-motion: reduce) { a.card { transition: none; } a.card:hover { transform: none; } }
+  .cap-row .label { width: 88px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .view-enter, .view-enter .panel > *, .view-enter .board-wrap, .hub-head, .cards .card, .pc-in, .gh-in, .pt, .dotm, .chk, .chk2,
+    .capring, .wave, .deco, .result, .result-card, .confetti i, .pulse, .selsq, .status.busy::after, .dot, .promo, .promo-box { animation: none !important; }
+    .confetti, .pt, .gh-in { display: none; }
+    a.card, a.card:hover, .lg-a, .lg-b, .lg-pawn, .back:hover, .go { transition: none; transform: none; }
+  }
 </style>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="xqDisc" cx="35%" cy="30%" r="80%">
+      <stop offset="0" style="stop-color:var(--disc-hi)"/>
+      <stop offset="0.6" style="stop-color:var(--disc)"/>
+      <stop offset="1" style="stop-color:var(--disc-lo)"/>
+    </radialGradient>
+    <radialGradient id="xqShadow">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="xqLight" cx="30%" cy="20%" r="95%">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.3"/>
+    </radialGradient>
+    <linearGradient id="chGW" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="0.55" stop-color="#e7dfcd"/><stop offset="1" stop-color="#b8ac93"/>
+    </linearGradient>
+    <linearGradient id="chGB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6c675f"/><stop offset="0.5" stop-color="#2b2926"/><stop offset="1" stop-color="#0d0c0b"/>
+    </linearGradient>
+    <linearGradient id="chSheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.18"/><stop offset="1" stop-color="#000" stop-opacity="0.22"/>
+    </linearGradient>
+    <filter id="xqWood" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.18" numOctaves="3" seed="11" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.1 0 0 0 -0.42" result="m"/>
+      <feFlood style="flood-color:var(--grain)" result="f"/>
+      <feComposite in="f" in2="m" operator="in" result="g"/>
+      <feComposite in="g" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <filter id="chFrameWood" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.005 0.16" numOctaves="3" seed="4" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.3 0 0 0 -0.5" result="m"/>
+      <feFlood style="flood-color:var(--frame-grain)" result="f"/>
+      <feComposite in="f" in2="m" operator="in" result="g"/>
+      <feComposite in="g" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <filter id="chGrain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.9 0 0 0 -0.3" result="m"/>
+      <feFlood flood-color="#000" result="f"/>
+      <feComposite in="f" in2="m" operator="in" result="g"/>
+      <feComposite in="g" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <clipPath id="xqRiver"><rect x="36" y="260" width="448" height="56"/></clipPath>
+  </defs>
+</svg>
 <div id="view-home" class="hub">
+  <span class="deco d1 han-t" aria-hidden="true">帥</span>
+  <span class="deco d2 glyph" aria-hidden="true">&#9822;&#xFE0E;</span>
   <header class="hub-head">
     <h1>Phòng Game</h1>
     <p>Chọn một ván để vào chơi.</p>
   </header>
   <div class="cards">
-    <a class="card" href="#co-tuong" data-open="co-tuong">
+    <a class="card" style="--i:0" href="#co-tuong" data-open="co-tuong">
       <svg class="logo" viewBox="0 0 96 96" aria-hidden="true">
         <rect width="96" height="96" rx="16" fill="var(--board)"/>
+        <rect width="96" height="96" rx="16" fill="#000" filter="url(#xqWood)"/>
+        <rect width="96" height="96" rx="16" fill="url(#xqLight)"/>
         <path d="M10 30H86M10 66H86M30 10V86M66 10V86M30 30L66 66M66 30L30 66" stroke="var(--grid)" stroke-width="1.5" opacity="0.4" fill="none"/>
-        <g transform="translate(62 58)">
-          <circle cx="1.5" cy="3" r="25" fill="#000" opacity="0.28"/>
-          <circle r="25" fill="var(--disc)" stroke="var(--disc-ring)" stroke-width="1.6"/>
-          <circle r="20.5" fill="none" stroke="var(--black-ink)" stroke-width="1.3" opacity="0.8"/>
-          <text class="han-t" y="1.5" text-anchor="middle" dominant-baseline="central" font-size="27" fill="var(--black-ink)">將</text>
-        </g>
-        <g transform="translate(37 40)">
-          <circle cx="1.5" cy="3" r="27" fill="#000" opacity="0.3"/>
-          <circle r="27" fill="var(--disc)" stroke="var(--disc-ring)" stroke-width="1.6"/>
-          <circle r="22.5" fill="none" stroke="var(--red-ink)" stroke-width="1.4" opacity="0.8"/>
-          <text class="han-t" y="1.5" text-anchor="middle" dominant-baseline="central" font-size="30" fill="var(--red-ink)">帥</text>
-        </g>
+        <g transform="translate(62 58)"><g class="lg-b">
+          <circle class="sh" cx="2" cy="4" r="32" fill="url(#xqShadow)"/>
+          <circle r="26.0" fill="var(--disc-lo)"/>
+          <circle r="24.6" fill="url(#xqDisc)" stroke="var(--disc-ring)" stroke-width="1"/>
+          <circle r="20.5" fill="none" stroke="var(--black-ink)" stroke-width="1.4" opacity="0.75"/>
+          <text class="han-t" y="2.8" text-anchor="middle" dominant-baseline="central" font-size="27" fill="#fff" fill-opacity="0.7">將</text>
+          <text class="han-t" y="1.6" text-anchor="middle" dominant-baseline="central" font-size="27" fill="var(--black-ink)">將</text>
+        </g></g>
+        <g transform="translate(37 40)"><g class="lg-a">
+          <circle class="sh" cx="2" cy="4" r="34" fill="url(#xqShadow)"/>
+          <circle r="28.0" fill="var(--disc-lo)"/>
+          <circle r="26.6" fill="url(#xqDisc)" stroke="var(--disc-ring)" stroke-width="1"/>
+          <circle r="22.5" fill="none" stroke="var(--red-ink)" stroke-width="1.4" opacity="0.75"/>
+          <text class="han-t" y="2.8" text-anchor="middle" dominant-baseline="central" font-size="30" fill="#fff" fill-opacity="0.7">帥</text>
+          <text class="han-t" y="1.6" text-anchor="middle" dominant-baseline="central" font-size="30" fill="var(--red-ink)">帥</text>
+        </g></g>
       </svg>
       <div>
         <h2>Cờ Tướng</h2>
@@ -251,14 +413,19 @@
       </div>
       <div class="foot"><span class="tag ok">Chơi được</span><span class="go" aria-hidden="true">Vào chơi →</span></div>
     </a>
-    <a class="card" href="#co-vua" data-open="co-vua">
+    <a class="card" style="--i:1" href="#co-vua" data-open="co-vua">
       <svg class="logo" viewBox="0 0 96 96" aria-hidden="true">
         <defs><clipPath id="chessClip"><rect width="96" height="96" rx="16"/></clipPath></defs>
-        <g clip-path="url(#chessClip)"><rect x="0" y="0" width="24" height="24" fill="var(--chess-l)"/><rect x="24" y="0" width="24" height="24" fill="var(--chess-d)"/><rect x="48" y="0" width="24" height="24" fill="var(--chess-l)"/><rect x="72" y="0" width="24" height="24" fill="var(--chess-d)"/><rect x="0" y="24" width="24" height="24" fill="var(--chess-d)"/><rect x="24" y="24" width="24" height="24" fill="var(--chess-l)"/><rect x="48" y="24" width="24" height="24" fill="var(--chess-d)"/><rect x="72" y="24" width="24" height="24" fill="var(--chess-l)"/><rect x="0" y="48" width="24" height="24" fill="var(--chess-l)"/><rect x="24" y="48" width="24" height="24" fill="var(--chess-d)"/><rect x="48" y="48" width="24" height="24" fill="var(--chess-l)"/><rect x="72" y="48" width="24" height="24" fill="var(--chess-d)"/><rect x="0" y="72" width="24" height="24" fill="var(--chess-d)"/><rect x="24" y="72" width="24" height="24" fill="var(--chess-l)"/><rect x="48" y="72" width="24" height="24" fill="var(--chess-d)"/><rect x="72" y="72" width="24" height="24" fill="var(--chess-l)"/></g>
-        <g fill="var(--chess-piece)">
-          <circle cx="48" cy="32" r="10"/>
-          <path d="M37 72C37 55 41 48 48 44C55 48 59 55 59 72Z"/>
-          <rect x="30" y="72" width="36" height="8" rx="3"/>
+        <g clip-path="url(#chessClip)"><rect x="0" y="0" width="24" height="24" fill="var(--chess-l)"/><rect x="24" y="0" width="24" height="24" fill="var(--chess-d)"/><rect x="48" y="0" width="24" height="24" fill="var(--chess-l)"/><rect x="72" y="0" width="24" height="24" fill="var(--chess-d)"/><rect x="0" y="24" width="24" height="24" fill="var(--chess-d)"/><rect x="24" y="24" width="24" height="24" fill="var(--chess-l)"/><rect x="48" y="24" width="24" height="24" fill="var(--chess-d)"/><rect x="72" y="24" width="24" height="24" fill="var(--chess-l)"/><rect x="0" y="48" width="24" height="24" fill="var(--chess-l)"/><rect x="24" y="48" width="24" height="24" fill="var(--chess-d)"/><rect x="48" y="48" width="24" height="24" fill="var(--chess-l)"/><rect x="72" y="48" width="24" height="24" fill="var(--chess-d)"/><rect x="0" y="72" width="24" height="24" fill="var(--chess-d)"/><rect x="24" y="72" width="24" height="24" fill="var(--chess-l)"/><rect x="48" y="72" width="24" height="24" fill="var(--chess-d)"/><rect x="72" y="72" width="24" height="24" fill="var(--chess-l)"/><rect width="96" height="96" fill="url(#chSheen)"/></g>
+        <g class="lg-pawn">
+          <ellipse cx="50" cy="80" rx="25" ry="6" fill="url(#xqShadow)"/>
+          <g fill="var(--chess-piece)">
+            <circle cx="48" cy="32" r="10.5"/>
+            <path d="M36 72C36 55 41 48 48 44C55 48 60 55 60 72Z"/>
+            <rect x="29" y="72" width="38" height="8" rx="3"/>
+          </g>
+          <ellipse cx="44.5" cy="28.5" rx="3.6" ry="2.6" fill="#fff" opacity="0.3"/>
+          <path d="M43 56C43 52 45 49.5 47 48" stroke="#fff" stroke-opacity="0.28" stroke-width="2.2" stroke-linecap="round" fill="none"/>
         </g>
       </svg>
       <div>
@@ -787,7 +954,8 @@ function XQEngine() {
     mode: 'ai', human: 1, level: 'mid',
     pos: null, hist: [], counts: new Map(), legal: [],
     sel: null, last: null, over: null, flipped: false,
-    thinking: false, req: 0, t0: 0
+    thinking: false, req: 0, t0: 0,
+    anim: null, intro: false, overHidden: false
   };
 
   function $(id) { return document.getElementById(id); }
@@ -843,6 +1011,7 @@ function XQEngine() {
     S.counts = new Map();
     S.counts.set(key(), 1);
     S.sel = null; S.last = null; S.over = null; S.thinking = false;
+    S.anim = null; S.intro = true; S.overHidden = false;
     S.legal = XQ.legalMoves(S.pos);
     S.flipped = S.mode === 'ai' && S.human === -1;
     render();
@@ -878,6 +1047,7 @@ function XQEngine() {
     S.counts.set(k, (S.counts.get(k) || 0) + 1);
     S.hist.push({ m: m, cap: cap, note: note, side: mover, key: k, quiet: cap ? 0 : prevQuiet + 1 });
     S.last = { from: m & 127, to: m >> 7 };
+    S.anim = { from: m & 127, to: m >> 7, cap: cap };
     S.sel = null; S.thinking = false;
     afterMove();
   }
@@ -895,7 +1065,7 @@ function XQEngine() {
     if (S.mode === 'ai') { while (S.hist.length && S.pos.side !== S.human) popOne(); }
     var h = S.hist[S.hist.length - 1];
     S.last = h ? { from: h.m & 127, to: h.m >> 7 } : null;
-    S.sel = null;
+    S.sel = null; S.anim = null; S.overHidden = false;
     afterMove();
   }
 
@@ -940,7 +1110,7 @@ function XQEngine() {
   function askAI() {
     var id = ++S.req;
     S.thinking = true; S.t0 = Date.now();
-    render();
+    renderStatus(); syncControls();
     var pos = S.pos, pen = {};
     for (var i = 0; i < S.legal.length; i++) {
       var m = S.legal[i];
@@ -995,93 +1165,161 @@ function XQEngine() {
   }
 
   // ---------- rendering ----------
-  function renderBoard() {
-    var b = S.pos.b, fl = S.flipped;
-    function X(c) { return M + (fl ? 8 - c : c) * U; }
-    function Y(r) { return M + (fl ? 9 - r : r) * U; }
-    var s = '<svg class="board" viewBox="0 0 ' + BW + ' ' + BH + '" role="group" aria-label="Bàn cờ tướng">';
-    s += '<rect x="1.5" y="1.5" width="' + (BW - 3) + '" height="' + (BH - 3) + '" rx="14" fill="var(--board)" stroke="var(--board-edge)" stroke-width="3"/>';
-    // wood grain
-    var grain = '';
-    for (var i = 0; i < 16; i++) {
-      var gy = 20 + i * 36 + (i % 3) * 5;
-      grain += 'M6 ' + gy + 'q' + (140 + (i % 4) * 30) + ' ' + (i % 2 ? -7 : 6) + ' ' + (BW - 12) + ' ' + (i % 2 ? 4 : -3);
-    }
-    s += '<path d="' + grain + '" fill="none" stroke="var(--grain)" stroke-width="1.2" opacity="0.14"/>';
-    // grid
-    var d = '', r, c;
-    for (r = 0; r < 10; r++) d += 'M' + X(0) + ' ' + Y(r) + 'H' + X(8);
+  function X(c) { return M + (S.flipped ? 8 - c : c) * U; }
+  function Y(r) { return M + (S.flipped ? 9 - r : r) * U; }
+
+  // Static layer: wood board, engraved lines, river. Rebuilt only when the board is flipped.
+  function staticMarkup(fl) {
+    function sx(c) { return M + (fl ? 8 - c : c) * U; }
+    function sy(r) { return M + (fl ? 9 - r : r) * U; }
+    var s = '', r, c, W2 = BW - 3, H2 = BH - 3;
+    var base = 'x="1.5" y="1.5" width="' + W2 + '" height="' + H2 + '" rx="14"';
+    s += '<rect ' + base + ' fill="var(--board)"/>';
+    s += '<rect ' + base + ' fill="#000" filter="url(#xqWood)"/>';
+    s += '<rect ' + base + ' fill="url(#xqLight)"/>';
+    s += '<rect ' + base + ' fill="none" stroke="var(--board-edge)" stroke-width="3"/>';
+    s += '<rect x="8" y="8" width="' + (BW - 16) + '" height="' + (BH - 16) + '" rx="9" fill="none" stroke="#fff" stroke-opacity="0.22" stroke-width="1.2"/>';
+
+    var d = '';
+    for (r = 0; r < 10; r++) d += 'M' + sx(0) + ' ' + sy(r) + 'H' + sx(8);
     for (c = 0; c < 9; c++) {
-      if (c === 0 || c === 8) d += 'M' + X(c) + ' ' + Y(0) + 'V' + Y(9);
-      else d += 'M' + X(c) + ' ' + Y(0) + 'V' + Y(4) + 'M' + X(c) + ' ' + Y(5) + 'V' + Y(9);
+      if (c === 0 || c === 8) d += 'M' + sx(c) + ' ' + sy(0) + 'V' + sy(9);
+      else d += 'M' + sx(c) + ' ' + sy(0) + 'V' + sy(4) + 'M' + sx(c) + ' ' + sy(5) + 'V' + sy(9);
     }
-    d += 'M' + X(3) + ' ' + Y(0) + 'L' + X(5) + ' ' + Y(2) + 'M' + X(5) + ' ' + Y(0) + 'L' + X(3) + ' ' + Y(2);
-    d += 'M' + X(3) + ' ' + Y(7) + 'L' + X(5) + ' ' + Y(9) + 'M' + X(5) + ' ' + Y(7) + 'L' + X(3) + ' ' + Y(9);
-    s += '<path d="' + d + '" fill="none" stroke="var(--grid)" stroke-width="1.5" stroke-linecap="square"/>';
-    s += '<rect x="' + M + '" y="' + M + '" width="' + (8 * U) + '" height="' + (9 * U) + '" fill="none" stroke="var(--grid)" stroke-width="3"/>';
-    // cannon and pawn point marks
+    d += 'M' + sx(3) + ' ' + sy(0) + 'L' + sx(5) + ' ' + sy(2) + 'M' + sx(5) + ' ' + sy(0) + 'L' + sx(3) + ' ' + sy(2);
+    d += 'M' + sx(3) + ' ' + sy(7) + 'L' + sx(5) + ' ' + sy(9) + 'M' + sx(5) + ' ' + sy(7) + 'L' + sx(3) + ' ' + sy(9);
     var marks = [[2, 1], [2, 7], [7, 1], [7, 7], [3, 0], [3, 2], [3, 4], [3, 6], [3, 8], [6, 0], [6, 2], [6, 4], [6, 6], [6, 8]];
     var md = '';
     marks.forEach(function (p) {
-      var mx = X(p[1]), my = Y(p[0]), dc = fl ? 8 - p[1] : p[1];
-      [-1, 1].forEach(function (sx) {
-        if ((dc === 0 && sx < 0) || (dc === 8 && sx > 0)) return;
-        [-1, 1].forEach(function (sy) {
-          md += 'M' + (mx + sx * 5) + ' ' + (my + sy * 5) + 'h' + (sx * 10) + 'M' + (mx + sx * 5) + ' ' + (my + sy * 5) + 'v' + (sy * 10);
+      var mx = sx(p[1]), my = sy(p[0]), dc = fl ? 8 - p[1] : p[1];
+      [-1, 1].forEach(function (a) {
+        if ((dc === 0 && a < 0) || (dc === 8 && a > 0)) return;
+        [-1, 1].forEach(function (b2) {
+          md += 'M' + (mx + a * 5) + ' ' + (my + b2 * 5) + 'h' + (a * 10) + 'M' + (mx + a * 5) + ' ' + (my + b2 * 5) + 'v' + (b2 * 10);
         });
       });
     });
-    s += '<path d="' + md + '" fill="none" stroke="var(--grid)" stroke-width="1.4"/>';
-    // river
-    var ry = M + 4.5 * U;
-    s += '<text class="han-t" x="' + (M + 2 * U) + '" y="' + ry + '" text-anchor="middle" dominant-baseline="central" font-size="28" letter-spacing="14" fill="var(--river)">楚河</text>';
-    s += '<text class="han-t" x="' + (M + 6 * U) + '" y="' + ry + '" text-anchor="middle" dominant-baseline="central" font-size="28" letter-spacing="14" fill="var(--river)">漢界</text>';
+    var frame = '<rect x="' + M + '" y="' + M + '" width="' + (8 * U) + '" height="' + (9 * U) + '"/>';
+    s += '<g fill="none" stroke-linecap="square">' +
+      '<g transform="translate(0.9 1.2)" stroke="#000" stroke-opacity="0.24" stroke-width="1.7"><path d="' + d + md + '"/>' + frame.replace('/>', ' stroke-width="3"/>') + '</g>' +
+      '<path d="' + d + '" stroke="var(--grid)" stroke-width="1.5"/>' +
+      '<path d="' + md + '" stroke="var(--grid)" stroke-width="1.4"/>' +
+      frame.replace('/>', ' stroke="var(--grid)" stroke-width="3"/>') + '</g>';
+
+    // river: slow drifting water lines, engraved characters
+    var ry = M + 4.5 * U, wv = '';
+    [-15, 0, 15].forEach(function (o, i) {
+      wv += '<path d="M' + (M - 60 + i * 20) + ' ' + (ry + o) + 'q15 -6 30 0' + ' t30 0'.repeat(22) + '" fill="none" stroke="var(--river)" stroke-opacity="0.3" stroke-width="1.6"/>';
+    });
+    s += '<g clip-path="url(#xqRiver)"><g class="wave">' + wv + '</g></g>';
+    [[2, '楚河'], [6, '漢界']].forEach(function (t) {
+      var tx = M + t[0] * U;
+      s += '<text class="han-t" x="' + tx + '" y="' + (ry + 2) + '" text-anchor="middle" dominant-baseline="central" font-size="28" letter-spacing="14" fill="#fff" fill-opacity="0.35">' + t[1] + '</text>';
+      s += '<text class="han-t" x="' + tx + '" y="' + (ry + 0.8) + '" text-anchor="middle" dominant-baseline="central" font-size="28" letter-spacing="14" fill="var(--river)">' + t[1] + '</text>';
+    });
+
     // file numbers: Red counts 九..一 from its left, Black counts 1..9 from its own right
     var redY = fl ? 22 : M + 9 * U + 24, blkY = fl ? M + 9 * U + 24 : 22;
     for (c = 0; c < 9; c++) {
-      s += '<text class="han-t lbl" x="' + X(c) + '" y="' + redY + '" text-anchor="middle">' + RED_NUM[c] + '</text>';
-      s += '<text class="lbl" x="' + X(c) + '" y="' + blkY + '" text-anchor="middle">' + (c + 1) + '</text>';
+      s += '<text class="han-t lbl" x="' + sx(c) + '" y="' + redY + '" text-anchor="middle">' + RED_NUM[c] + '</text>';
+      s += '<text class="lbl" x="' + sx(c) + '" y="' + blkY + '" text-anchor="middle">' + (c + 1) + '</text>';
     }
-    // legal targets (under pieces so ring shows around captures)
+    return s;
+  }
+
+  function pieceSVG(v, x, y, cls, style) {
+    var ink = v > 0 ? 'var(--red-ink)' : 'var(--black-ink)', ch = han(v);
+    return '<g transform="translate(' + x + ' ' + y + ')"><g class="' + cls + '"' + (style ? ' style="' + style + '"' : '') + '>' +
+      '<circle class="sh" cx="2" cy="4.5" r="32" fill="url(#xqShadow)"/>' +
+      '<circle r="26" fill="var(--disc-lo)"/>' +
+      '<circle r="24.6" fill="url(#xqDisc)" stroke="var(--disc-ring)" stroke-width="1"/>' +
+      '<circle r="20.6" fill="none" stroke="' + ink + '" stroke-width="1.3" opacity="0.72"/>' +
+      '<text class="han-t" y="2.7" text-anchor="middle" dominant-baseline="central" font-size="27" fill="#fff" fill-opacity="0.7">' + ch + '</text>' +
+      '<text class="han-t" y="1.5" text-anchor="middle" dominant-baseline="central" font-size="27" fill="' + ink + '">' + ch + '</text>' +
+      '</g></g>';
+  }
+
+  function burst(x, y, cap) {
+    var s = '', n = 10;
+    for (var i = 0; i < n; i++) {
+      var a = (i / n) * 6.2832 + Math.random() * 0.5, d = 24 + Math.random() * 18;
+      s += '<circle class="pt" cx="' + x + '" cy="' + y + '" r="' + (2 + Math.random() * 1.6).toFixed(1) + '" fill="' +
+        (i % 2 ? (cap > 0 ? 'var(--red-ink)' : 'var(--black-ink)') : 'var(--disc-ring)') + '" style="--bx:' +
+        (Math.cos(a) * d).toFixed(1) + 'px;--by:' + (Math.sin(a) * d).toFixed(1) + 'px"/>';
+    }
+    return s;
+  }
+
+  // Dynamic layer: hints, pieces, effects, click targets. Rebuilt on every change.
+  function dynMarkup() {
+    var b = S.pos.b, anim = S.anim, intro = S.intro, s = '', sq, k = 0;
+    S.anim = null; S.intro = false;
     var targets = S.sel !== null ? targetsOf(S.sel) : [];
-    targets.forEach(function (t) {
-      if (b[t] === 0) s += '<circle cx="' + X(t % 9) + '" cy="' + Y((t / 9) | 0) + '" r="9" fill="var(--hint)" opacity="0.8"/>';
+    targets.forEach(function (t, i) {
+      if (b[t] === 0) s += '<circle class="dotm" style="animation-delay:' + (i * 16) + 'ms" cx="' + X(t % 9) + '" cy="' + Y((t / 9) | 0) + '" r="9" fill="var(--hint)"/>';
     });
-    // pieces
-    for (var sq = 0; sq < 90; sq++) {
+    var mover = -1;
+    for (sq = 0; sq < 90; sq++) {
       var v = b[sq];
       if (!v) continue;
-      var px = X(sq % 9), py = Y((sq / 9) | 0);
-      var lift = S.sel === sq ? -4 : 0;
-      var ink = v > 0 ? 'var(--red-ink)' : 'var(--black-ink)';
-      s += '<g class="' + (S.last && S.last.to === sq ? 'moved' : '') + '" transform="translate(' + px + ' ' + (py + lift) + ')"><g class="pc-in">';
-      s += '<circle cx="1.5" cy="3" r="25" fill="#000" opacity="0.28"/>';
-      s += '<circle r="25" fill="var(--disc)" stroke="var(--disc-ring)" stroke-width="1.6"/>';
-      s += '<circle r="20.5" fill="none" stroke="' + ink + '" stroke-width="1.3" opacity="0.8"/>';
-      s += '<text class="han-t" y="1.5" text-anchor="middle" dominant-baseline="central" font-size="27" fill="' + ink + '">' + han(v) + '</text>';
-      s += '</g></g>';
+      if (anim && sq === anim.to) { mover = sq; continue; }
+      s += pieceSVG(v, X(sq % 9), Y((sq / 9) | 0), 'pc-in' + (S.sel === sq ? ' sel' : '') + (intro ? ' intro' : ''), intro ? '--k:' + (k++) : '');
+    }
+    if (anim && anim.cap) s += pieceSVG(anim.cap, X(anim.to % 9), Y((anim.to / 9) | 0), 'gh-in', '');
+    if (mover >= 0) {
+      var mx = X(mover % 9), my = Y((mover / 9) | 0);
+      var dx = X(anim.from % 9) - mx, dy = Y((anim.from / 9) | 0) - my;
+      s += pieceSVG(b[mover], mx, my, 'pc-in mv', '--dx:' + dx + 'px;--dy:' + dy + 'px');
+      if (anim.cap) s += burst(mx, my, anim.cap);
     }
     if (S.sel !== null) {
-      s += '<circle cx="' + X(S.sel % 9) + '" cy="' + (Y((S.sel / 9) | 0) - 4) + '" r="29.5" fill="none" stroke="var(--hint)" stroke-width="3.5"/>';
+      s += '<circle class="pulse" cx="' + X(S.sel % 9) + '" cy="' + (Y((S.sel / 9) | 0) - 4) + '" r="29.5" fill="none" stroke="var(--hint)" stroke-width="3.5"/>';
     }
     targets.forEach(function (t) {
-      if (b[t] !== 0) s += '<circle cx="' + X(t % 9) + '" cy="' + Y((t / 9) | 0) + '" r="29.5" fill="none" stroke="var(--hint)" stroke-width="3.5" stroke-dasharray="7 5"/>';
+      if (b[t] !== 0) s += '<circle class="capring" cx="' + X(t % 9) + '" cy="' + Y((t / 9) | 0) + '" r="29.5" fill="none" stroke="var(--hint)" stroke-width="3.5" stroke-dasharray="7 5"/>';
     });
     if (!S.over && XQ.inCheck(S.pos, S.pos.side)) {
-      var k = S.pos.kp[S.pos.side === 1 ? 0 : 1];
-      s += '<circle class="chk" cx="' + X(k % 9) + '" cy="' + Y((k / 9) | 0) + '" r="31" fill="none" stroke="var(--danger)" stroke-width="4"/>';
+      var kq = S.pos.kp[S.pos.side === 1 ? 0 : 1], kx = X(kq % 9), ky = Y((kq / 9) | 0);
+      var ring = ' cx="' + kx + '" cy="' + ky + '" r="30" fill="none" stroke="var(--danger)" stroke-width="3"';
+      s += '<circle class="chk0"' + ring + '/><circle class="chk"' + ring + '/><circle class="chk2"' + ring + '/>';
     }
-    // click targets
-    var can = humanCanMove();
-    var movable = {};
+    var can = humanCanMove(), movable = {};
     if (can) S.legal.forEach(function (m) { movable[m & 127] = true; });
     for (sq = 0; sq < 90; sq++) {
-      var isTarget = targets.indexOf(sq) >= 0;
-      var cls = 'hit' + (can && (movable[sq] || isTarget) ? ' can' : '');
+      var cls = 'hit' + (can && (movable[sq] || targets.indexOf(sq) >= 0) ? ' can' : '');
       s += '<circle class="' + cls + '" data-sq="' + sq + '" cx="' + X(sq % 9) + '" cy="' + Y((sq / 9) | 0) + '" r="27"/>';
     }
-    s += '</svg>';
-    $('boardWrap').innerHTML = s;
+    return s;
+  }
+
+  function confettiMarkup(colors) {
+    var s = '<div class="confetti" aria-hidden="true">';
+    for (var i = 0; i < 34; i++) {
+      s += '<i style="--x:' + (Math.random() * 100).toFixed(1) + '%;--r:' + ((Math.random() * 360) | 0) + 'deg;--d:' + (1.6 + Math.random() * 1.4).toFixed(2) + 's;--dl:' + (0.7 + Math.random() * 0.9).toFixed(2) + 's;--c:' + colors[i % colors.length] + '"></i>';
+    }
+    return s + '</div>';
+  }
+
+  function overlayMarkup() {
+    if (!S.over || S.overHidden) return '';
+    var title, win = !S.over.draw && (S.mode === 'pvp' || S.over.win === S.human);
+    if (S.over.draw) title = 'Hòa cờ';
+    else if (S.mode === 'ai') title = S.over.win === S.human ? 'Bạn thắng' : 'Máy thắng';
+    else title = sideName(S.over.win) + ' thắng';
+    return '<div class="result" role="status">' + (win ? confettiMarkup(['var(--red-ink)', 'var(--disc-ring)', 'var(--accent)', 'var(--disc)']) : '') +
+      '<div class="result-card"><div class="result-title">' + title + '</div><div class="result-sub">' + S.over.reason + '</div>' +
+      '<div class="result-actions"><button type="button" class="btn primary" data-act="new">Ván mới</button><button type="button" class="btn" data-act="close">Xem bàn cờ</button></div></div></div>';
+  }
+
+  function renderBoard() {
+    var wrap = $('boardWrap'), fl = S.flipped;
+    if (wrap.getAttribute('data-flip') !== String(fl) || !$('xq-dyn')) {
+      wrap.innerHTML = '<svg class="board" viewBox="0 0 ' + BW + ' ' + BH + '" role="group" aria-label="Bàn cờ tướng">' +
+        staticMarkup(fl) + '<g id="xq-dyn"></g></svg><div class="ov" id="xq-ov"></div>';
+      wrap.setAttribute('data-flip', String(fl));
+    }
+    $('xq-dyn').innerHTML = dynMarkup();
+    $('xq-ov').innerHTML = overlayMarkup();
   }
 
   function renderStatus() {
@@ -1107,6 +1345,7 @@ function XQEngine() {
         ? 'Bạn cầm quân ' + sideName(S.human) + (S.human === 1 ? ' và đi trước.' : ', máy đi trước.')
         : 'Đỏ đi trước.';
     }
+    el.className = 'status' + (S.thinking ? ' busy' : '');
     el.innerHTML = '<div class="turn"><span class="dot" data-side="' + dot + '"></span><span class="turn-text">' + title + '</span>' + extra + '</div><div class="sub">' + sub + '</div>';
   }
 
@@ -1174,6 +1413,7 @@ function XQEngine() {
     if (a === 'new') newGame();
     else if (a === 'undo') undo();
     else if (a === 'flip') { S.flipped = !S.flipped; renderBoard(); }
+    else if (a === 'close') { S.overHidden = true; renderBoard(); }
   });
 
   var started = false;
@@ -1713,12 +1953,12 @@ function ChessEngine() {
     mode: 'ai', human: 1, level: 'mid',
     pos: null, hist: [], counts: new Map(), legal: [],
     sel: null, promo: null, over: null, flipped: false,
-    thinking: false, req: 0, t0: 0, started: false
+    thinking: false, req: 0, t0: 0, started: false,
+    anim: null, intro: false, overHidden: false
   };
 
   function $(id) { return document.getElementById(id); }
   function sideName(s) { return s === 1 ? 'Trắng' : 'Đen'; }
-  function sqName(sq) { return FILES[sq & 15] + (8 - (sq >> 4)); }
 
   function loadSettings() {
     try {
@@ -1742,6 +1982,7 @@ function ChessEngine() {
     S.counts = new Map();
     S.counts.set(C.key(S.pos), 1);
     S.sel = null; S.promo = null; S.over = null; S.thinking = false;
+    S.anim = null; S.intro = true; S.overHidden = false;
     S.legal = C.legalMoves(S.pos);
     S.flipped = S.mode === 'ai' && S.human === -1;
     render();
@@ -1770,14 +2011,17 @@ function ChessEngine() {
 
   function doMove(m) {
     var pos = S.pos;
-    var b = pos.b, to = (m >> 7) & 127, flag = (m >> 17) & 3;
+    var b = pos.b, from = m & 127, to = (m >> 7) & 127, flag = (m >> 17) & 3;
     var victim = flag === 1 ? (pos.side === 1 ? -C.P : C.P) : b[to];
+    var anim = { from: from, to: to, cap: victim, capSq: flag === 1 ? to + (pos.side === 1 ? 16 : -16) : to, rook: null };
+    if (flag === 2) anim.rook = to > from ? { from: from + 3, to: from + 1 } : { from: from - 4, to: from - 1 };
     var note = C.san(pos, m), mover = pos.side;
     C.make(pos, m);
     var k = C.key(pos);
     S.counts.set(k, (S.counts.get(k) || 0) + 1);
     S.hist.push({ m: m, cap: victim, san: note, side: mover, key: k });
     S.sel = null; S.promo = null; S.thinking = false;
+    S.anim = anim;
     afterMove();
   }
 
@@ -1792,7 +2036,7 @@ function ChessEngine() {
     }
     popOne();
     if (S.mode === 'ai') { while (S.hist.length && S.pos.side !== S.human) popOne(); }
-    S.sel = null; S.promo = null;
+    S.sel = null; S.promo = null; S.anim = null; S.overHidden = false;
     afterMove();
   }
 
@@ -1836,7 +2080,7 @@ function ChessEngine() {
   function askAI() {
     var id = ++S.req;
     S.thinking = true; S.t0 = Date.now();
-    render();
+    renderStatus(); syncControls();
     var pos = S.pos, pen = {};
     for (var i = 0; i < S.legal.length; i++) {
       var m = S.legal[i];
@@ -1898,76 +2142,154 @@ function ChessEngine() {
   }
 
   // ---------- rendering ----------
-  function renderBoard() {
-    var b = S.pos.b, fl = S.flipped, r, c;
-    function X(col) { return MG + (fl ? 7 - col : col) * CELL; }
-    function Y(row) { return MG + (fl ? 7 - row : row) * CELL; }
-    var s = '<svg class="board" viewBox="0 0 ' + BS + ' ' + BS + '" role="group" aria-label="Bàn cờ vua">';
-    s += '<rect x="1" y="1" width="' + (BS - 2) + '" height="' + (BS - 2) + '" rx="12" fill="var(--sq-frame)"/>';
+  function X(c) { return MG + (S.flipped ? 7 - c : c) * CELL; }
+  function Y(r) { return MG + (S.flipped ? 7 - r : r) * CELL; }
+  function px(sq) { return X(sq & 15) + CELL / 2; }
+  function py(sq) { return Y(sq >> 4) + CELL / 2; }
+
+  // Static layer: walnut frame, squares, coordinates. Rebuilt only when the board is flipped.
+  function staticMarkup(fl) {
+    function sx(c) { return MG + (fl ? 7 - c : c) * CELL; }
+    function sy(r) { return MG + (fl ? 7 - r : r) * CELL; }
+    var s = '', r, c, W2 = BS - 2;
+    var base = 'x="1" y="1" width="' + W2 + '" height="' + W2 + '" rx="14"';
+    s += '<rect ' + base + ' fill="var(--sq-frame)"/>';
+    s += '<rect ' + base + ' fill="#000" filter="url(#chFrameWood)"/>';
+    s += '<rect ' + base + ' fill="url(#xqLight)"/>';
+    s += '<rect x="7" y="7" width="' + (BS - 14) + '" height="' + (BS - 14) + '" rx="9" fill="none" stroke="#fff" stroke-opacity="0.2" stroke-width="1.2"/>';
     for (r = 0; r < 8; r++) {
       for (c = 0; c < 8; c++) {
-        s += '<rect x="' + X(c) + '" y="' + Y(r) + '" width="' + CELL + '" height="' + CELL + '" fill="' + (((r + c) & 1) ? 'var(--sq-d)' : 'var(--sq-l)') + '"/>';
+        s += '<rect x="' + sx(c) + '" y="' + sy(r) + '" width="' + CELL + '" height="' + CELL + '" fill="' + (((r + c) & 1) ? 'var(--sq-d)' : 'var(--sq-l)') + '"/>';
       }
     }
-    s += '<rect x="' + MG + '" y="' + MG + '" width="' + (8 * CELL) + '" height="' + (8 * CELL) + '" fill="none" stroke="var(--coord)" stroke-width="1.2" opacity="0.6"/>';
+    var bd = 'x="' + MG + '" y="' + MG + '" width="' + (8 * CELL) + '" height="' + (8 * CELL) + '"';
+    s += '<rect ' + bd + ' fill="#000" opacity="0.5" filter="url(#chGrain)"/>';
+    s += '<rect ' + bd + ' fill="url(#chSheen)"/>';
+    s += '<rect ' + bd + ' fill="none" stroke="#000" stroke-opacity="0.45" stroke-width="2"/>';
     for (c = 0; c < 8; c++) {
-      s += '<text class="clbl" x="' + (X(c) + CELL / 2) + '" y="' + (BS - 10) + '" text-anchor="middle">' + FILES[c] + '</text>';
+      s += '<text class="clbl" x="' + (sx(c) + CELL / 2) + '" y="' + (BS - 10) + '" text-anchor="middle">' + FILES[c] + '</text>';
     }
     for (r = 0; r < 8; r++) {
-      s += '<text class="clbl" x="' + (MG / 2) + '" y="' + (Y(r) + CELL / 2 + 4.5) + '" text-anchor="middle">' + (8 - r) + '</text>';
+      s += '<text class="clbl" x="' + (MG / 2) + '" y="' + (sy(r) + CELL / 2 + 4.5) + '" text-anchor="middle">' + (8 - r) + '</text>';
     }
+    return s;
+  }
+
+  function pieceSVG(v, cx, cy, cls, style, ghost) {
+    var white = v > 0;
+    return '<g transform="translate(' + cx + ' ' + cy + ')"><g class="' + cls + '"' + (style ? ' style="' + style + '"' : '') + '>' +
+      '<ellipse class="sh" cx="2" cy="21" rx="23" ry="7" fill="url(#xqShadow)"/>' +
+      '<text class="' + (ghost ? 'gl2' : 'glyph') + '" y="17" text-anchor="middle" font-size="50" ' +
+      'fill="' + (white ? 'url(#chGW)' : 'url(#chGB)') + '" stroke="' + (white ? 'var(--pw-line)' : 'var(--pb-line)') + '" ' +
+      'stroke-width="' + (white ? 2.4 : 1.4) + '" stroke-linejoin="round" paint-order="stroke">' + GLYPH[Math.abs(v)] + '</text>' +
+      '</g></g>';
+  }
+
+  function burst(x, y, cap) {
+    var s = '', n = 10;
+    for (var i = 0; i < n; i++) {
+      var a = (i / n) * 6.2832 + Math.random() * 0.5, d = 26 + Math.random() * 20;
+      s += '<circle class="pt" cx="' + x + '" cy="' + y + '" r="' + (2 + Math.random() * 1.8).toFixed(1) + '" fill="' +
+        (i % 2 ? 'var(--hint)' : (cap > 0 ? 'var(--pw-fill)' : 'var(--pb-fill)')) + '" style="--bx:' +
+        (Math.cos(a) * d).toFixed(1) + 'px;--by:' + (Math.sin(a) * d).toFixed(1) + 'px"/>';
+    }
+    return s;
+  }
+
+  // Dynamic layer: hints, pieces, effects, click targets. Rebuilt on every change.
+  function dynMarkup() {
+    var b = S.pos.b, anim = S.anim, intro = S.intro, s = '', r, c, k = 0;
+    S.anim = null; S.intro = false;
     var moves = S.sel !== null ? movesFrom(S.sel) : [];
     var targets = {};
     moves.forEach(function (m) { targets[(m >> 7) & 127] = true; });
+    var epTarget = S.sel !== null && Math.abs(b[S.sel]) === C.P ? S.pos.ep : -1;
     if (S.sel !== null) {
-      s += '<rect x="' + X(S.sel & 15) + '" y="' + Y(S.sel >> 4) + '" width="' + CELL + '" height="' + CELL + '" fill="var(--hint)" opacity="0.38"/>';
+      s += '<rect class="selsq" x="' + X(S.sel & 15) + '" y="' + Y(S.sel >> 4) + '" width="' + CELL + '" height="' + CELL + '" fill="var(--hint)"/>';
     }
-    Object.keys(targets).forEach(function (k) {
-      var t = +k;
-      if (b[t] === 0 && !(S.pos.ep === t && Math.abs(b[S.sel]) === C.P)) {
-        s += '<circle cx="' + (X(t & 15) + CELL / 2) + '" cy="' + (Y(t >> 4) + CELL / 2) + '" r="9" fill="var(--hint)" opacity="0.8"/>';
+    var di = 0;
+    Object.keys(targets).forEach(function (key) {
+      var t = +key;
+      if (b[t] === 0) {
+        s += '<circle class="dotm" style="animation-delay:' + ((di++) * 16) + 'ms" cx="' + px(t) + '" cy="' + py(t) + '" r="9" fill="var(--hint)"/>';
       }
     });
+    var movers = [];
     for (r = 0; r < 8; r++) {
       for (c = 0; c < 8; c++) {
-        var v = b[(r << 4) | c];
+        var sq = (r << 4) | c, v = b[sq];
         if (!v) continue;
-        var white = v > 0, cx = X(c) + CELL / 2, cy = Y(r) + CELL / 2;
-        s += '<text class="glyph" x="' + cx + '" y="' + (cy + 17) + '" text-anchor="middle" font-size="50" ' +
-          'fill="' + (white ? 'var(--pw-fill)' : 'var(--pb-fill)') + '" stroke="' + (white ? 'var(--pw-line)' : 'var(--pb-line)') + '" ' +
-          'stroke-width="' + (white ? 2.4 : 1.4) + '" stroke-linejoin="round" paint-order="stroke">' + GLYPH[Math.abs(v)] + '</text>';
+        if (anim && (sq === anim.to || (anim.rook && sq === anim.rook.to))) { movers.push(sq); continue; }
+        s += pieceSVG(v, px(sq), py(sq), 'pc-in' + (S.sel === sq ? ' sel' : '') + (intro ? ' intro' : ''), intro ? '--k:' + (k++) : '');
       }
     }
-    Object.keys(targets).forEach(function (k) {
-      var t = +k;
-      if (b[t] !== 0) {
-        s += '<circle cx="' + (X(t & 15) + CELL / 2) + '" cy="' + (Y(t >> 4) + CELL / 2) + '" r="28" fill="none" stroke="var(--hint)" stroke-width="4" stroke-dasharray="7 5"/>';
-      } else if (S.pos.ep === t && Math.abs(b[S.sel]) === C.P) {
-        s += '<circle cx="' + (X(t & 15) + CELL / 2) + '" cy="' + (Y(t >> 4) + CELL / 2) + '" r="9" fill="var(--hint)" opacity="0.8"/>';
+    if (anim && anim.cap) s += pieceSVG(anim.cap, px(anim.capSq), py(anim.capSq), 'gh-in', '', true);
+    movers.forEach(function (sq) {
+      var from = sq === anim.to ? anim.from : anim.rook.from;
+      s += pieceSVG(b[sq], px(sq), py(sq), 'pc-in mv', '--dx:' + (px(from) - px(sq)) + 'px;--dy:' + (py(from) - py(sq)) + 'px');
+    });
+    if (anim && anim.cap) s += burst(px(anim.capSq), py(anim.capSq), anim.cap);
+    Object.keys(targets).forEach(function (key) {
+      var t = +key;
+      if (b[t] !== 0 || t === epTarget) {
+        s += '<circle class="capring" cx="' + px(t) + '" cy="' + py(t) + '" r="28" fill="none" stroke="var(--hint)" stroke-width="4" stroke-dasharray="7 5"/>';
       }
     });
     if (!S.over && C.inCheck(S.pos, S.pos.side)) {
-      var k = S.pos.kp[S.pos.side === 1 ? 0 : 1];
-      s += '<circle class="chk" cx="' + (X(k & 15) + CELL / 2) + '" cy="' + (Y(k >> 4) + CELL / 2) + '" r="30" fill="none" stroke="var(--danger)" stroke-width="4"/>';
+      var kq = S.pos.kp[S.pos.side === 1 ? 0 : 1];
+      var ring = ' cx="' + px(kq) + '" cy="' + py(kq) + '" r="30" fill="none" stroke="var(--danger)" stroke-width="3.5"';
+      s += '<circle class="chk0"' + ring + '/><circle class="chk"' + ring + '/><circle class="chk2"' + ring + '/>';
     }
     var can = humanCanMove(), movable = {};
     if (can) S.legal.forEach(function (m) { movable[m & 127] = true; });
     for (r = 0; r < 8; r++) {
       for (c = 0; c < 8; c++) {
-        var sq = (r << 4) | c;
-        s += '<rect class="hit' + (can && (movable[sq] || targets[sq]) ? ' can' : '') + '" data-sq="' + sq + '" x="' + X(c) + '" y="' + Y(r) + '" width="' + CELL + '" height="' + CELL + '"/>';
+        var q = (r << 4) | c;
+        s += '<rect class="hit' + (can && (movable[q] || targets[q]) ? ' can' : '') + '" data-sq="' + q + '" x="' + X(c) + '" y="' + Y(r) + '" width="' + CELL + '" height="' + CELL + '"/>';
       }
     }
-    s += '</svg>';
+    return s;
+  }
+
+  function confettiMarkup(colors) {
+    var s = '<div class="confetti" aria-hidden="true">';
+    for (var i = 0; i < 34; i++) {
+      s += '<i style="--x:' + (Math.random() * 100).toFixed(1) + '%;--r:' + ((Math.random() * 360) | 0) + 'deg;--d:' + (1.6 + Math.random() * 1.4).toFixed(2) + 's;--dl:' + (0.7 + Math.random() * 0.9).toFixed(2) + 's;--c:' + colors[i % colors.length] + '"></i>';
+    }
+    return s + '</div>';
+  }
+
+  function overlayMarkup() {
+    var s = '';
     if (S.promo) {
-      var white2 = S.pos.side === 1;
+      var white = S.pos.side === 1;
       s += '<div class="promo" role="dialog" aria-label="Chọn quân phong cấp"><div class="promo-box"><span class="label">Phong cấp thành</span><div class="promo-row">';
       [C.Q, C.R, C.B, C.N].forEach(function (p) {
-        s += '<button type="button" class="promo-btn" data-promo="' + p + '" aria-label="' + PNAME[p] + '"><span class="glyph ' + (white2 ? 'pw' : 'pb') + '">' + GLYPH[p] + '</span></button>';
+        s += '<button type="button" class="promo-btn" data-promo="' + p + '" aria-label="' + PNAME[p] + '"><span class="glyph ' + (white ? 'pw' : 'pb') + '">' + GLYPH[p] + '</span></button>';
       });
       s += '</div></div></div>';
     }
-    $('ch-boardWrap').innerHTML = s;
+    if (S.over && !S.overHidden) {
+      var title, win = !S.over.draw && (S.mode === 'pvp' || S.over.win === S.human);
+      if (S.over.draw) title = 'Hòa cờ';
+      else if (S.mode === 'ai') title = S.over.win === S.human ? 'Bạn thắng' : 'Máy thắng';
+      else title = sideName(S.over.win) + ' thắng';
+      s += '<div class="result" role="status">' + (win ? confettiMarkup(['var(--accent)', 'var(--hint)', 'var(--pw-fill)', 'var(--danger)']) : '') +
+        '<div class="result-card"><div class="result-title">' + title + '</div><div class="result-sub">' + S.over.reason + '</div>' +
+        '<div class="result-actions"><button type="button" class="btn primary" data-act="new">Ván mới</button><button type="button" class="btn" data-act="close">Xem bàn cờ</button></div></div></div>';
+    }
+    return s;
+  }
+
+  function renderBoard() {
+    var wrap = $('ch-boardWrap'), fl = S.flipped;
+    if (wrap.getAttribute('data-flip') !== String(fl) || !$('ch-dyn')) {
+      wrap.innerHTML = '<svg class="board" viewBox="0 0 ' + BS + ' ' + BS + '" role="group" aria-label="Bàn cờ vua">' +
+        staticMarkup(fl) + '<g id="ch-dyn"></g></svg><div class="ov" id="ch-ov"></div>';
+      wrap.setAttribute('data-flip', String(fl));
+    }
+    $('ch-dyn').innerHTML = dynMarkup();
+    $('ch-ov').innerHTML = overlayMarkup();
   }
 
   function renderStatus() {
@@ -1992,6 +2314,7 @@ function ChessEngine() {
         ? 'Bạn cầm quân ' + sideName(S.human) + (S.human === 1 ? ' và đi trước.' : ', máy đi trước.')
         : 'Trắng đi trước.';
     }
+    el.className = 'status' + (S.thinking ? ' busy' : '');
     el.innerHTML = '<div class="turn"><span class="dot" data-side="' + dot + '"></span><span class="turn-text">' + title + '</span>' + extra + '</div><div class="sub">' + sub + '</div>';
   }
 
@@ -2064,6 +2387,7 @@ function ChessEngine() {
     if (a === 'new') newGame();
     else if (a === 'undo') undo();
     else if (a === 'flip') { S.flipped = !S.flipped; renderBoard(); }
+    else if (a === 'close') { S.overHidden = true; renderBoard(); }
   });
 
   window.__chStart = function () { if (S.started) return; S.started = true; loadSettings(); newGame(); };
@@ -2076,11 +2400,19 @@ function ChessEngine() {
   var home = document.getElementById('view-home');
   var views = { 'co-tuong': document.getElementById('view-xiangqi'), 'co-vua': document.getElementById('view-chess') };
   var starters = { 'co-tuong': '__xqStart', 'co-vua': '__chStart' };
+  var current = null;
   function route() {
     var h = (location.hash || '').replace('#', '');
     var id = views[h] ? h : '';
     home.hidden = id !== '';
     Object.keys(views).forEach(function (k) { views[k].hidden = k !== id; });
+    var el = id ? views[id] : home;
+    if (current !== id) {
+      current = id;
+      el.classList.remove('view-enter');
+      void el.offsetWidth;
+      el.classList.add('view-enter');
+    }
     if (id && window[starters[id]]) window[starters[id]]();
     window.scrollTo(0, 0);
   }
